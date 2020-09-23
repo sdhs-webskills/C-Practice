@@ -13,33 +13,39 @@ $conn = mysqli_connect(
 	"people"
 );
 
+global $duplicate;
 $duplicate = false;
 
-function Duplicate_check($name, $conn) {
-	$sql = "select * from person;";
+function Duplicate_check($email, $conn) {
+	$sql = "select * from person where Email='".$email."';";
 	$result = mysqli_query($conn, $sql);
 
 	while($row = mysqli_fetch_assoc($result)) {
-		if($name == $row['Name']) {
+		if($row) {
+			global $duplicate;
 			$duplicate = true;
-			return $duplicate;
 		};
 	};
 };
 
-Duplicate_check($name, $conn);
-register($email, $password, $name, $birthday, $img, $duplicate, $conn);
-
-function register($email, $password, $name, $birthday, $img, $duplicate, $conn) {
-	$sql = "insert into person values('".$email."', '".$password."', '".$name."', '".$birthday."', '".$img."')";
-	$result = mysqli_query($conn, $sql);
-
-	$sql = "select * from person";
-	$result = mysqli_query($conn, $sql);
-
-	while($row = mysqli_fetch_assoc($result)) {
-		print_r($row);
+function register($email, $password, $name, $birthday, $img, $conn) {
+	global $duplicate;
+	
+	if($duplicate == false) {
+		$sql = "insert into person values('".$email."', '".$password."', '".$name."', '".$birthday."', '".$img."')";
+		$result = mysqli_query($conn, $sql);
+	}else {
+		return false;
 	};
+};
+
+Duplicate_check($email, $conn);
+register($email, $password, $name, $birthday, $img, $conn);
+
+if($_SERVER["REQUEST_METHOD"] === "POST") {
+	var_dump($_POST);
+
+	
 };
 
 ?>

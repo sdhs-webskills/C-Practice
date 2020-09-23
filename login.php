@@ -1,6 +1,6 @@
 <?php
 
-$id = $_POST["id"];
+$id = $_POST["email"];
 $password = $_POST["password"];
 
 $conn = mysqli_connect(
@@ -9,5 +9,14 @@ $conn = mysqli_connect(
 	"",
 	"people"
 );
+
+login($id, $password, $conn);
+
+function login($id, $password, $conn) {
+	$sql = "select * from person where id = '".$id."', '".$password."';";
+	$result = mysqli_query($conn, $sql);
+
+	header('Location: /webskills/main.html');
+};
 
 ?>
