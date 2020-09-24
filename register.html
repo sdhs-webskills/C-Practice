@@ -5,13 +5,13 @@
 	<script src="/webskills/js/register.js"></script>
 </head>
 <body>
-	<form method="post" action="/webskills/register.php">
+	<form method="post" action="/webskills/register.php" enctype="multipart/form-data">
 		<input type="text" name="email">
 		<input type="password" name="password">
 		<input type="password" name="password-check">
 		<input type="text" name="name">
 		<input type="text" name="birthday">
-		<input type="file" name="img">
+		<input type="file" name="img" accept="image/*">
 		<img src="">
 		<input type="text" name="cap-cha">
 		<input type="submit">
