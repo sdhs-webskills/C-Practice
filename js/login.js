@@ -1,4 +1,6 @@
 window.onload = () => {
 	let form = document.querySelector("form");
-	console.log(form);
+	[...form.children].forEach(itme => {
+		item.value = "";
+	});
 };
