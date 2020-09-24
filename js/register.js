@@ -8,13 +8,14 @@ window.onload = () => {
 		if(empty_check(this.children)) {
 			if(Duplicate_check(email)) {
 				if(same_check(this.children)) {
-					this.submit();
-				}else {
-					alert("비밀번호가 다릅니다.");
-				};
-			}else {
-				alert("이메일 형식이 잘못되었습니다.");
-			};
+					if(birth_check(this.children)) {
+						this.submit();
+
+					}
+
+				}else alert("비밀번호가 다릅니다.");
+
+			}else alert("이메일 형식이 잘못되었습니다.");
 		};
 	});
 
@@ -27,6 +28,7 @@ window.onload = () => {
 		let check = false;
 
 		if(target[1].value == target[2].value) check = true;
+		else check = false;
 
 		return check;
 	};
@@ -42,9 +44,8 @@ window.onload = () => {
 					alert(name_switch(target[i].getAttribute("name")) + "칸이 비었습니다.");
 					check = false;
 					break;
-				}else {
-					check = true;
-				}
+
+				}else check = true;
 			};
 		}
 
@@ -52,7 +53,7 @@ window.onload = () => {
 	};
 
 	function birth_check(target) {
-
+		console.log(target);
 	};
 
 	function name_switch(name) {

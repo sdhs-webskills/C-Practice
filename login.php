@@ -1,6 +1,6 @@
 <?php
 
-$id = $_POST["email"];
+$email = $_POST["email"];
 $password = $_POST["password"];
 
 $conn = mysqli_connect(
@@ -10,11 +10,18 @@ $conn = mysqli_connect(
 	"people"
 );
 
-login($id, $password, $conn);
+login($email, $password, $conn);
 
-function login($id, $password, $conn) {
-	$sql = "select * from person where id = '".$id."', '".$password."';";
+function login($email, $password, $conn) {
+	$sql = "select * from person where Email='$email' and Password=password('$password');";
 	$result = mysqli_query($conn, $sql);
+
+	if($result) {
+		session_start();
+
+		$_SESSION["email"] = $email;
+		$_SESSION["login-whether"] = true;
+	};
 
 	header('Location: /webskills/main.html');
 };
