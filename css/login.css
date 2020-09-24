@@ -18,3 +18,10 @@ form{
 	height: 100px;
 	display: block;
 }
+form > input{
+	width: 100%;
+	height: 30%;
+}
+form > input:nth-of-type(3) {
+	
+}
