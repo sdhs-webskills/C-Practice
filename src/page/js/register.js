@@ -6,14 +6,14 @@ window.onload = () => {
 		let email = this.children[0];
 
 		if(empty_check(this.children)) {
-			if(Duplicate_check(email.value)) {
-				if(same_check(this.children)) {
-					if(birth_switch(this.children[4].value))
-						this.submit("/webskills/register.php");
+			if(same_check(this.children)) {
+				if(birth_switch(this.children[4].value)) {
+					if(form_check(this.children)) {
+						// this.submit();
+					};
+				}else alert("");
 
-				}else alert("비밀번호가 다릅니다.");
-
-			}else alert("이메일 형식이 잘못되었습니다.");
+			}else alert("비밀번호가 다릅니다.");
 		};
 	});
 
@@ -33,20 +33,6 @@ window.onload = () => {
 		};
 	});
 
-	function Duplicate_check(email) {
-		let reg = /\S+@\S+\.\S+/;
-		return reg.test(email);
-	};
-
-	function same_check(target) {
-		let check = false;
-
-		if(target[1].value == target[2].value) check = true;
-		else check = false;
-
-		return check;
-	};
-
 	function empty_check(target) {
 		let check = false;
 
@@ -65,10 +51,45 @@ window.onload = () => {
 
 		return check;
 	};
+	function same_check(target) {
+		let check = false;
 
+		if(target[1].value == target[2].value) check = true;
+		else check = false;
+
+		return check;
+	};
 	function file_type_check(img) {
 		let reg = new RegExp(/\.png|\.jpg|\.jpeg|\.git|\.bmp/);
 		return img.match(reg);
+	};
+	function form_check(target) {
+		let email = target[0].value; // 영어 이메일 형식
+		let pw = target[1].value; // 영어 대소문자, 숫자, 특수문자(0~9까지만 가능) 혼합
+		let name = target[3].value; // 한국어, 영어, 숫자(숫자만 제외) 2~10글자
+		let birthday = target[4].value; // [yyyy-mm-dd] 1920-01-01 ~ 현재
+
+		let email_result = email.match(new RegExp(/\S+@\S+\.\S+/g));
+		let pw_result = pw.match(new RegExp(/^[A-Za-z0-9!@#$%^&*()]*$/g));
+		let name_result = name.match(new RegExp(/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|A-Z|a-z]*$/g));
+		let birth_result = birth_check(birthday);
+
+		if(email_result != null && pw_result != null && name_result != null && birth_check != null) {
+			return true;
+		}else return false;
+	};
+	function birth_check(birth) {
+		let year = birth.substr(0, 4);
+		let month = birth.substr(5, 2);
+		let day = birth.substr(8, 10);
+
+		let year_check = (year > 1920);
+		let month_check = (0 < month < 13);
+		let day_check = (0 < day <= 31);
+
+		if(year_check && month_check && day_check)
+			return true;
+		else return false;
 	};
 
 	function birth_switch(num) {

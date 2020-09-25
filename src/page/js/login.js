@@ -1,9 +1,15 @@
 window.onload = () => {
 	let form = document.querySelector("form");
 	form.addEventListener("submit", function(e) {
-		e.prevenDefault();
+		e.preventDefault();
 
-		empty_check(this.children);
+		if(empty_check(this.children)) {
+			if(email_check(this.children[0].value)) {
+				this.submit();	
+			}else{
+				alert("이메일 형식을 확인해주세요");
+			};
+		};
 	});
 
 	function empty_check(target) {
@@ -20,7 +26,13 @@ window.onload = () => {
 			}else{
 				continue;
 			};
-		}	
+		}
+
+		return check;
+	};
+	function email_check(email) {
+		let reg = /\S+@\S+\.\S+/;
+		return reg.test(email);
 	};
 
 	function name_switch(name) {
