@@ -1,6 +1,6 @@
 <?php
 
-include "function.php";
+include "src/account/function.php";
 
 session_start();
 
