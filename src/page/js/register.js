@@ -9,7 +9,7 @@ window.onload = () => {
 			if(same_check(this.children)) {
 				if(birth_switch(this.children[4].value)) {
 					if(form_check(this.children)) {
-						// this.submit();
+						this.submit();
 					};
 				}else alert("");
 
@@ -64,19 +64,32 @@ window.onload = () => {
 		return img.match(reg);
 	};
 	function form_check(target) {
-		let email = target[0].value; // 영어 이메일 형식
-		let pw = target[1].value; // 영어 대소문자, 숫자, 특수문자(0~9까지만 가능) 혼합
-		let name = target[3].value; // 한국어, 영어, 숫자(숫자만 제외) 2~10글자
-		let birthday = target[4].value; // [yyyy-mm-dd] 1920-01-01 ~ 현재
+		let email = target[0]; // 영어 이메일 형식
+		let pw = target[1]; // 영어 대소문자, 숫자, 특수문자(0~9까지만 가능) 혼합
+		let name = target[3]; // 한국어, 영어, 숫자(숫자만 제외) 2~10글자
+		let birthday = target[4]; // [yyyy-mm-dd] 1920-01-01 ~ 현재
 
-		let email_result = email.match(new RegExp(/\S+@\S+\.\S+/g));
-		let pw_result = pw.match(new RegExp(/^[A-Za-z0-9!@#$%^&*()]*$/g));
-		let name_result = name.match(new RegExp(/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|A-Z|a-z]*$/g));
-		let birth_result = birth_check(birthday);
+		let email_result = email.value.match(new RegExp(/\S+@\S+\.\S+/g));
+		let pw_result = pw.value.match(new RegExp(/^[A-Za-z0-9!@#$%^&*()]*$/g));
+		let name_result = name.value.match(new RegExp(/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|A-Z|a-z]*$/g));
+		let birth_result = birth_check(birthday.value);
 
-		if(email_result != null && pw_result != null && name_result != null && birth_check != null) {
-			return true;
-		}else return false;
+		let target_arr = [email, pw, name, birthday];
+		let arr = [email_result, pw_result, name_result, birth_result];
+
+		let check = true;
+
+		arr.forEach((item, index) => {
+			if(item == undefined || item == null || item == false) {
+				check = false;
+				alert(name_switch(target_arr[index].getAttribute("name")) + "칸의 형식이 잘못되었습니다");
+				target_arr[index].focus();
+			}else{
+				check = true;
+			};
+		});
+		
+		return check;
 	};
 	function birth_check(birth) {
 		let year = birth.substr(0, 4);
