@@ -47,8 +47,8 @@ function register($email, $password, $name, $birthday, $img, $conn) {
 	global $duplicate;
 	
 	if($duplicate == false) {
-		// $sql = "insert into person values('$email', password('$password'), '$name', '$birthday', '$img')";
-		// $result = mysqli_query($conn, $sql);
+		$sql = "insert into person values('$email', password('$password'), '$name', '$birthday', '$img')";
+		$result = mysqli_query($conn, $sql);
 
 		$imgs = $_FILES["img"]["name"];
 
@@ -57,9 +57,9 @@ function register($email, $password, $name, $birthday, $img, $conn) {
 
 		move_uploaded_file($_FILES["img"]["tmp_name"], "webskills/src/account/image/user/".$img_nm);
 		echo file_exists($_FILES["img"]["tmp_name"]);
-		// alert("회원가입 완료되었습니다");
+		alert("회원가입 완료되었습니다");
 
-		// echo "<script>document.location.href='/webskills/src/page/login.html';</script>";
+		echo "<script>document.location.href='/webskills/src/page/login.html';</script>";
 	}else {
 		alert("중복된 이메일입니다.");
 
