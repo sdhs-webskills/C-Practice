@@ -42,11 +42,11 @@ function login($email, $password, $conn) {
 		if($email_row) {
 			alert("비밀번호를 확인해주세요.");
 
-			echo "<script>document.location.href='/webskills/login.html';</script>";
+			echo "<script>document.location.href='/webskills/src/page/login.html';</script>";
 		}else {
 			alert("존재하지않는 아이디입니다.");
 
-			echo "<script>document.location.href='/webskills/register.html';</script>";
+			echo "<script>document.location.href='/webskills/src/page/register.html';</script>";
 		};
 	};
 };

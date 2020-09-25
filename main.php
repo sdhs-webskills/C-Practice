@@ -9,7 +9,7 @@ if($_SESSION["login-whether"] == true) {
 }else{
 	alert("로그인한 회원만 접근 가능합니다");
 	
-	header("Location: /webskills/login.html");
+	header("Location: /webskills/src/page/login.html");
 };
 
 ?>
@@ -21,6 +21,6 @@ if($_SESSION["login-whether"] == true) {
 	<title>index</title>
 </head>
 <body>
-	<button name="logout"><a href="/webskills/logout.php">로그아웃</a></button>
+	<button name="logout"><a href="/webskills/src/page/logout.php">로그아웃</a></button>
 </body>
 </html>

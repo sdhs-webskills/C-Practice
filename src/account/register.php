@@ -30,7 +30,7 @@ $conn = mysqli_connect(
 );
 
 function Duplicate_check($email, $conn) {
-	$sql = "select * from person where Email='".$email."';";
+	$sql = "select * from person where Email='$email';";
 	$result = mysqli_query($conn, $sql);
 
 	while($row = mysqli_fetch_assoc($result)) {
@@ -45,7 +45,7 @@ function register($email, $password, $name, $birthday, $img, $conn) {
 	global $duplicate;
 	
 	if($duplicate == false) {
-		$sql = "insert into person values('".$email."', '".$password."', '".$name."', '".$birthday."', '".$img."')";
+		$sql = "insert into person values('$email', '$password', '$name', '$birthday', '$img')";
 		$result = mysqli_query($conn, $sql);
 
 		session_start();
@@ -55,14 +55,14 @@ function register($email, $password, $name, $birthday, $img, $conn) {
 		$imgs = explode(".", $imgs);
 		$img_nm = cut_email($email)."_profile_img".".$imgs[1]";
 
-		move_uploaded_file($_FILES["img"]["tmp-name"], "webskills/img/user/".$img_nm);
+		move_uploaded_file($_FILES["img"]["tmp-name"], "webskills/src/account/image/user/".$img_nm);
 		alert("회원가입 되었습니다");
 
-		header("Location: /webskills/login.html");
+		header("Location: /webskills/src/page/login.html");
 	}else {
 		alert("중복되는 아이디입니다. 다른 아이디를 사용해주세요.");
 
-		header("Location: /webskills/register.html");
+		header("Location: /webskills/src/page/register.html");
 	};
 };
 
