@@ -3,23 +3,25 @@ window.onload = () => {
 	form.addEventListener("submit", function(e) {
 		e.preventDefault();
 
-		let email = this.children[0];
-
 		if(empty_check(this.children)) {
 			if(same_check(this.children)) {
-				if(birth_switch(this.children[4].value)) {
-					if(form_check(this.children)) {
+				if(form_check(this.children)) {
+					if(cap_check(this.children))
 						this.submit();
-					};
-				}else alert("");
-
+				};
 			}else alert("비밀번호가 다릅니다.");
 		};
 	});
+	form.children[6].innerHTML = generate_capCha();
 
 	let birthday = form.children[4];
 	birthday.addEventListener("keyup", function(e) {
-		this.value = birth_switch(e.target.value);
+		let limit = 10;
+
+		if(this.value.length > limit) 
+			this.value = this.value.slice(0, limit);
+
+		this.value = birth_switch(this.value);
 	});
 
 	let img = form.children[5];
@@ -44,7 +46,6 @@ window.onload = () => {
 					alert(name_switch(target[i].getAttribute("name")) + "칸이 비었습니다.");
 					check = false;
 					break;
-
 				}else check = true;
 			};
 		}
@@ -59,19 +60,16 @@ window.onload = () => {
 
 		return check;
 	};
-	function file_type_check(img) {
-		let reg = new RegExp(/\.png|\.jpg|\.jpeg|\.git|\.bmp/);
-		return img.match(reg);
-	};
+	const file_type_check = img => img.match(new RegExp(/\.png|\.jpg|\.jpeg|\.git|\.bmp/));
 	function form_check(target) {
-		let email = target[0]; // 영어 이메일 형식
-		let pw = target[1]; // 영어 대소문자, 숫자, 특수문자(0~9까지만 가능) 혼합
-		let name = target[3]; // 한국어, 영어, 숫자(숫자만 제외) 2~10글자
+		let email = target[0];	  // 영어 이메일 형식
+		let pw = target[1]; 	  // 영어 대소문자, 숫자, 특수문자(0~9까지만 가능) 혼합
+		let name = target[3]; 	  // 한국어, 영어, 숫자(숫자만 제외) 2~10글자
 		let birthday = target[4]; // [yyyy-mm-dd] 1920-01-01 ~ 현재
 
 		let email_result = email.value.match(new RegExp(/\S+@\S+\.\S+/g));
 		let pw_result = pw.value.match(new RegExp(/^[A-Za-z0-9!@#$%^&*()]*$/g));
-		let name_result = name.value.match(new RegExp(/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|A-Z|a-z]*$/g));
+		let name_result = name.value.match(new RegExp(/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|A-Z|a-z]{2,10}$/g));
 		let birth_result = birth_check(birthday.value);
 
 		let target_arr = [email, pw, name, birthday];
@@ -84,9 +82,7 @@ window.onload = () => {
 				check = false;
 				alert(name_switch(target_arr[index].getAttribute("name")) + "칸의 형식이 잘못되었습니다");
 				target_arr[index].focus();
-			}else{
-				check = true;
-			};
+			}else check = true;
 		});
 		
 		return check;
@@ -102,7 +98,20 @@ window.onload = () => {
 
 		if(year_check && month_check && day_check)
 			return true;
-		else return false;
+		else
+			return false;
+	};
+	function cap_check(target) {
+		let cap = target[6];
+		let i_cap = target[7];
+
+		if(cap.innerHTML == i_cap.value) return true;
+		else{
+			alert("캡차 입력이 일치하지 않습니다");
+			cap.innerHTML = generate_capCha();
+			i_cap.value = "";
+			i_cap.focus();
+		};
 	};
 
 	function birth_switch(num) {
@@ -111,11 +120,11 @@ window.onload = () => {
 
 		if(number.length <= 4) {
 			return number;
-		} else if(number.length < 7) {
+		}else if(number.length < 7) {
 			result += number.substr(0, 4);
 			result += "-";
 			result += number.substr(4);
-		} else if(number.length < 11) {
+		}else if(number.length < 11) {
 			result += number.substr(0, 4);
 			result += "-";
 			result += number.substr(4, 2);
@@ -133,5 +142,24 @@ window.onload = () => {
 			case "name" : return "이름";
 			case "birthday" : return "생년월일";
 		};
+	};
+
+	function generate_capCha() {
+		let capCha = "";
+
+		let arr = [];
+		let alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+		for(let i = 0; i < 6; i++) 
+			arr.push(Math.floor(Math.random() * 2));
+		
+		arr.forEach(item => {
+			if(item == 0) 
+				capCha += alpha.charAt(Math.floor(Math.random() * alpha.length));
+			else
+				capCha += Math.floor(Math.random() * 10);
+		});
+
+		return capCha;
 	};
 };

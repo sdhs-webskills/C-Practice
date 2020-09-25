@@ -49,15 +49,19 @@ function register($email, $password, $name, $birthday, $img, $conn) {
 	global $duplicate;
 	
 	if($duplicate == false) {
-		$sql = "insert into person values('$email', password('$password'), '$name', '$birthday', '$img')";
-		$result = mysqli_query($conn, $sql);
+		$img_path = "../account/image/user/";
 
 		$imgs = $_FILES["img"]["name"];
 
 		$imgs = explode(".", $imgs);
 		$img_nm = cut_email($email)."_profile_img.".$imgs[1];
 
-		move_uploaded_file($_FILES["img"]["tmp_name"], "../account/image/user/".$img_nm);
+		$sql_path = "/src/account/image/user";
+
+		$sql = "insert into person values('$email', password('$password'), '$name', '$birthday', '$sql_path.$img_nm')";
+		$result = mysqli_query($conn, $sql);
+
+		move_uploaded_file($_FILES["img"]["tmp_name"], $img_path.$img_nm);
 
 		alert("회원가입 완료되었습니다");
 
