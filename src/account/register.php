@@ -56,9 +56,10 @@ function register($email, $password, $name, $birthday, $img, $conn) {
 		$imgs = explode(".", $imgs);
 		$img_nm = cut_email($email)."_profile_img.".$imgs[1];
 
-		$sql_path = "/src/account/image/user";
+		$sql_path = "../account/image/user/";
+		$sql_img_path = $sql_path.$img_nm;
 
-		$sql = "insert into person values('$email', password('$password'), '$name', '$birthday', '$sql_path.$img_nm')";
+		$sql = "insert into person values('$email', password('$password'), '$name', '$birthday', '$sql_img_path', now());";
 		$result = mysqli_query($conn, $sql);
 
 		move_uploaded_file($_FILES["img"]["tmp_name"], $img_path.$img_nm);

@@ -22,6 +22,6 @@ if($_SESSION["login-whether"] == true) {
 </head>
 <body>
 	<button name="logout"><a href="/webskills/src/account/logout.php">로그아웃</a></button>
-	<button name="search"><a href="/webskills/src/account/search.php">유저 검색</a></button>
+	<button name="search"><a href="/webskills/src/account/search.html">유저 검색</a></button>
 </body>
 </html>

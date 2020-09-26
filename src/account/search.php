@@ -1,64 +1,33 @@
 <?php
 
-include "function.php";
+$method = $_SERVER["REQUEST_METHOD"];
 
-session_start();
+if($method == "GET") header("Location: /webskills/main.php");
+else {
+	if(isset($_POST["sql"])) {
+		$conn = mysqli_connect(
+			"localhost",
+			"root",
+			"",
+			"people"
+		);
 
-if($_SESSION["login-whether"] == true) {
+		$sql = $_POST["sql"];
+		$result = mysqli_query($conn, $sql);
 
-}else{
-	alert("로그인한 회원만 접근 가능합니다");
-	
-	echo "<script>document.location.href='/webskills/src/page/login.html';</script>";
+		if($result == false) {
+			echo(json_encode(array(
+				"message" => "fail to search user"
+			)));
+		}else {
+			$arr = [];
+			while($row = mysqli_fetch_object($result)) {
+				array_push($arr, $row);
+			};
+			print_r(json_encode($arr));
+		};
+	}else header("Location: /webskills/main.php");
 };
 
-?>
-
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-	<meta charset="UTF-8">
-	<title>search-user</title>
-</head>
-<body>
-	<div id="wrap">
-		<div id="search-box">
-			<div id="input-box">
-				<input type="text" name="search-input">
-			</div>
-			<div id="result-box">
-				
-			</div>
-		</div>
-	</div>
-</body>
-
-<?php
-
-
-
-$html = file_get_html("../page/login.html");
 
 ?>
-
-<!-- <script>
-	console.log("asdf");
-	window.onload = () => {
-		console.log("asdf");
-		let search = '<?php echo search(); ?>';
-
-		console.log(search);
-
-		let input = document.querySelector("input[name='search-input']");
-		input.addEventListener("keyup", function(e) {
-			console.log(input);
-			if(e.keyCode == 13) {
-				let $val = this.value;
-				console.log($val)
-				let test = "<?php echo search('$val'); ?>";
-				console.log(test);
-			};
-		});
-	};
-</script> -->
-</html>
