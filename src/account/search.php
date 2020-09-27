@@ -29,5 +29,4 @@ else {
 	}else header("Location: /webskills/main.php");
 };
 
-
 ?>

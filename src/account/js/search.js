@@ -61,20 +61,46 @@ window.onload = () => {
 		});
 	};
 	function search_result(obj) {
-		console.log(obj);
-
 		let box = document.createElement("div");
 		let img = document.createElement("img");
 		let email = document.createElement("li");
 		let name = document.createElement("li");
 		let birth = document.createElement("li");
+		let btn = document.createElement("button");
 
 		img.setAttribute("src", obj.Img);
 		email.innerHTML = obj.Email;
 		name.innerHTML = obj.Name;
 		birth.innerHTML = obj.Birth;
+		btn.innerHTML = "친구요청";
 
-		box.append(img, email, name, birth);
+		btn.addEventListener("click", function(e) {
+			if(this.innerHTML == "친구요청")
+				friend_apply(this.parentNode.children[1].innerHTML);
+		});
+
+		box.append(img, email, name, birth, btn);
 		result.append(box);
+	};
+	function friend_apply(email) {
+		let url = "friend_apply.php";
+		let form = new FormData();
+		form.append("email", email);
+
+		fetch(url, {
+			mode: "cors",
+			method: "post",
+			headers: {
+				"Access-Control-Allow-Origin" : "*"
+			},
+			body: form
+		})
+		.then(req => {return req.json()})
+		.then(res => {
+			console.log(res);
+		})
+		.catch(err => {
+			console.log(err);
+		});
 	};
 };
