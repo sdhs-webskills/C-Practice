@@ -16,6 +16,10 @@ else {
 			"",
 			"people"
 		);
+
+		$check_sql = "select Responser from friend_apply where Requester='$requester';";
+		$check_result = mysqli_query($connn, $check_sql);
+		
 		
 		$sql = "insert into friend_apply values('$requester', '$responser', now());";
 		$result = mysqli_query($conn, $sql);

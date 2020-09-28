@@ -8,10 +8,8 @@ window.onload = () => {
 			let sql = "";
 
 			if(form_check(val) == "email") {
-				// sql = `select Email, Name, Birth, Img from person where Email='${val}';`;
 				search("Email", val);
 			}else if(form_check(val) == "name") {
-				// sql = `select Email, Name, Birth, Img from person where Name='${val}';`;
 				search("Name", val);
 			};
 		};
@@ -49,17 +47,19 @@ window.onload = () => {
 		.then(req => {return req.json()})
 		.then(res => {
 			result.innerHTML = "";
-			if(res.length > 0) {
-				res.forEach(item => {
+			if([...res].length > 0) {
+				[...res].forEach(item => {
 					search_result(item);
 				});
-			}else result.innerHTML = "존재하지 않는 유저입니다.";
+			}else{
+				result.innerHTML = "존재하지 않는 유저입니다.";
+			};
 		})
 		.catch(err => {
 			console.log(err);
 		});
 	};
-	function search_result(obj) {
+	function search_result(arr) {
 		let box = document.createElement("div");
 		let img = document.createElement("img");
 		let email = document.createElement("li");
@@ -67,10 +67,10 @@ window.onload = () => {
 		let birth = document.createElement("li");
 		let btn = document.createElement("button");
 
-		img.setAttribute("src", obj.Img);
-		email.innerHTML = obj.Email;
-		name.innerHTML = obj.Name;
-		birth.innerHTML = obj.Birth;
+		img.setAttribute("src", arr[3]);
+		email.innerHTML = arr[0];
+		name.innerHTML = arr[1];
+		birth.innerHTML = arr[2];
 		btn.innerHTML = "친구요청";
 
 		btn.addEventListener("click", function(e) {
