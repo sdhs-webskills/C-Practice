@@ -16,7 +16,8 @@ else {
 			"",
 			"people"
 		);
-		$sql = "insert into friend_apply values('$requester', '$responser', now();";
+		
+		$sql = "insert into friend_apply values('$requester', '$responser', now());";
 		$result = mysqli_query($conn, $sql);
 
 		echo(json_encode(array(

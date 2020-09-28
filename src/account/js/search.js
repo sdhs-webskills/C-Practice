@@ -8,11 +8,11 @@ window.onload = () => {
 			let sql = "";
 
 			if(form_check(val) == "email") {
-				sql = `select Email, Name, Birth, Img from person where Email='${val}';`;
-				search(sql);
+				// sql = `select Email, Name, Birth, Img from person where Email='${val}';`;
+				search("Email", val);
 			}else if(form_check(val) == "name") {
-				sql = `select Email, Name, Birth, Img from person where Name='${val}';`;
-				search(sql);
+				// sql = `select Email, Name, Birth, Img from person where Name='${val}';`;
+				search("Name", val);
 			};
 		};
 	});
@@ -32,10 +32,11 @@ window.onload = () => {
 	};
 
 	let result = document.querySelector("#result-box");
-	function search(sql) {
+	function search(kind, value) {
 		let url = "search.php";
 		let form = new FormData();
-		form.append("sql", sql);
+		form.append("kind", kind);
+		form.append("value", value);
 
 		fetch(url, {
 			mode: "cors",
@@ -52,9 +53,7 @@ window.onload = () => {
 				res.forEach(item => {
 					search_result(item);
 				});
-			}else{
-				result.innerHTML = "존재하지 않는 유저입니다.";
-			};
+			}else result.innerHTML = "존재하지 않는 유저입니다.";
 		})
 		.catch(err => {
 			console.log(err);

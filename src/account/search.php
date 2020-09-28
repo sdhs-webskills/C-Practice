@@ -1,10 +1,20 @@
 <?php
 
+include "function.php";
+
 $method = $_SERVER["REQUEST_METHOD"];
 
-if($method == "GET") header("Location: /webskills/main.php");
-else {
-	if(isset($_POST["sql"])) {
+if($method == "GET") {
+	session_start();
+
+	if($_SESSION["email"] && $_SESSION["email"] != "") {
+		header("Location: /webskills/src/account/search.html");
+	}else {
+		alert("로그인한 유저만 접근 가능합니다");
+		echo "<script>document.location.href='/webskills/src/page/login.html';</script>";
+	};
+}else {
+	if(isset($_POST["kind"])) {
 		$conn = mysqli_connect(
 			"localhost",
 			"root",
@@ -12,7 +22,10 @@ else {
 			"people"
 		);
 
-		$sql = $_POST["sql"];
+		$kind = $_POST["kind"];
+		$value = $_POST["value"];
+
+		$sql = "select * from person where $kind='$value';";
 		$result = mysqli_query($conn, $sql);
 
 		if($result == false) {
