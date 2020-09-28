@@ -32,7 +32,6 @@ if($_SESSION["login-whether"] == true) {
 
 };
 
-
 function Duplicate_check($email, $conn) {
 	$sql = "select * from person where Email='$email';";
 	$result = mysqli_query($conn, $sql);

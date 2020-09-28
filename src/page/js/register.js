@@ -162,4 +162,21 @@ window.onload = () => {
 
 		return capCha;
 	};
+
+	function email_fetch(email) {
+		let url = "../account/Duplicate.php";
+		fetch(url, {
+			mode: "cors",
+			method: "post",
+			headers: {
+				"Access-Control-Allow-Origin" : "*"
+			},
+			body: form
+		})
+		.then(req => {return req.json()})
+		.then(res => {
+			console.log(res);
+		})
+		.catch(err => console.log(err));
+	};
 };
