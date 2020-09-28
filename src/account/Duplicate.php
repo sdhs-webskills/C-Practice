@@ -17,7 +17,9 @@ if($row) {
 		"message" => "duplicate"
 	)));
 }else{
-	
+	echo(json_encode(array(
+		"message" => "not duplicate"
+	)));
 };
 
 ?>

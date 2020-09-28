@@ -6,8 +6,9 @@ window.onload = () => {
 		if(empty_check(this.children)) {
 			if(same_check(this.children)) {
 				if(form_check(this.children)) {
-					if(cap_check(this.children))
-						this.submit();
+					if(cap_check(this.children)){
+						email_fetch(this.children[0]);
+					};
 				};
 			}else alert("비밀번호가 다릅니다.");
 		};
@@ -67,7 +68,7 @@ window.onload = () => {
 		let name = target[3]; 	  // 한국어, 영어, 숫자(숫자만 제외) 2~10글자
 		let birthday = target[4]; // [yyyy-mm-dd] 1920-01-01 ~ 현재
 
-		let email_result = email.value.match(new RegExp(/\S+@\S+\.\S+/g));
+		let email_result = email.value.match(new RegExp(/[A-Z|a-z|0-9]*@[A-Za-z]*\.[A-Za-z]{2,3}/g));
 		let pw_result = pw.value.match(new RegExp(/^[A-Za-z0-9!@#$%^&*()]*$/g));
 		let name_result = name.value.match(new RegExp(/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|A-Z|a-z]{2,10}$/g));
 		let birth_result = birth_check(birthday.value);
@@ -78,7 +79,7 @@ window.onload = () => {
 		let check = true;
 
 		arr.forEach((item, index) => {
-			if(item == undefined || item == null || item == false) {
+			if(item == undefined || null || false) {
 				check = false;
 				alert(name_switch(target_arr[index].getAttribute("name")) + "칸의 형식이 잘못되었습니다");
 				target_arr[index].focus();
@@ -165,6 +166,9 @@ window.onload = () => {
 
 	function email_fetch(email) {
 		let url = "../account/Duplicate.php";
+		let form = new FormData();
+		form.append("email", email.value);
+
 		fetch(url, {
 			mode: "cors",
 			method: "post",
@@ -175,8 +179,32 @@ window.onload = () => {
 		})
 		.then(req => {return req.json()})
 		.then(res => {
-			console.log(res);
+			if(email_duplicate(res.message)) {
+				email.parentNode.submit();
+			}else{
+				console.log("false");
+			}
 		})
 		.catch(err => console.log(err));
+	};
+	function email_duplicate(msg) {
+		let check = false;
+
+		if(msg == "duplicate") {
+			let li = document.createElement("li");
+			li.setAttribute("name", "duplicate-error");
+			li.innerHTML = "중복된 이메일입니다.";
+
+			document.body.append(li);
+
+			check = false;
+		}else {
+			let li = document.querySelector("li[name='duplicate-error']");
+			if(li) document.body.removeChild(li);
+
+			check = true;
+		};
+
+		return check;
 	};
 };
