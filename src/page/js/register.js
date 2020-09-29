@@ -90,7 +90,7 @@ window.onload = () => {
 			}else check = true;
 		});
 		
-		//return check;
+		return check;
 	};
 	function birth_check(birth) {
 		let year = birth.substr(0, 4);

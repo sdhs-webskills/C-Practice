@@ -24,7 +24,7 @@ else {
 
 		while($row = mysqli_fetch_row($result)) {
 			global $check;
-			if($row == $responser) {
+			if($row[0] == $responser) {
 				$check = true;
 				break;
 			}else continue;

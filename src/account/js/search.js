@@ -75,7 +75,9 @@ window.onload = () => {
 		email.innerHTML = arr[0];
 		name.innerHTML = arr[1];
 		birth.innerHTML = arr[2];
-		btn.innerHTML = "친구요청";
+
+		if(friend_check(arr[0]) == true) btn.innerHTML = "친구끊기";
+		else btn.innerHTML = "친구요청";
 
 		btn.addEventListener("click", function(e) {
 			if(this.innerHTML == "친구요청")
@@ -102,9 +104,7 @@ window.onload = () => {
 		.then(res => {
 			console.log(res);
 		})
-		.catch(err => {
-			console.log(err);
-		});
+		.catch(err => console.log(err));
 	};
 	function friend_check(email) {
 		let url = "friend_check.php";
@@ -120,6 +120,7 @@ window.onload = () => {
 			body: form
 		})
 		.then(req => {return req.json()})
+		.then(res => {return res})
 		.catch(err => console.log(err));
 	};
 };
