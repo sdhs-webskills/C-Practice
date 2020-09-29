@@ -51,9 +51,9 @@ window.onload = () => {
 				[...res].forEach(item => {
 					friend_check(item[0])
 					.then(res => {
-						console.log(res);
+						if(res == false) search_result(item);
+						
 					})
-					// search_result(item);
 				});
 			}else{
 				result.innerHTML = "존재하지 않는 유저입니다.";
@@ -119,9 +119,7 @@ window.onload = () => {
 			},
 			body: form
 		})
-		.then(req => {
-			console.log(req.text())
-			return req.json()})
+		.then(req => {return req.json()})
 		.catch(err => console.log(err));
 	};
 };

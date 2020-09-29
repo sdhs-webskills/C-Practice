@@ -30,7 +30,7 @@ else {
 			}else continue;
 		};
 
-		var_dump(json_encode($check));
+		echo(json_encode($check));
 
 	}else header("Location: /webskills/main.php");
 };
