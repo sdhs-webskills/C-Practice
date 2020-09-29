@@ -49,7 +49,11 @@ window.onload = () => {
 			result.innerHTML = "";
 			if([...res].length > 0) {
 				[...res].forEach(item => {
-					search_result(item);
+					friend_check(item[0])
+					.then(res => {
+						console.log(res);
+					})
+					// search_result(item);
 				});
 			}else{
 				result.innerHTML = "존재하지 않는 유저입니다.";
@@ -101,5 +105,23 @@ window.onload = () => {
 		.catch(err => {
 			console.log(err);
 		});
+	};
+	function friend_check(email) {
+		let url = "friend_check.php";
+		let form = new FormData();
+		form.append("email", email);
+
+		return fetch(url, {
+			mode: "cors",
+			method: "post",
+			headers: {
+				"Access-Control-Allow-Origin" : "*"
+			},
+			body: form
+		})
+		.then(req => {
+			console.log(req.text())
+			return req.json()})
+		.catch(err => console.log(err));
 	};
 };
