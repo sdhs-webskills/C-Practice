@@ -1,56 +1,34 @@
 <?php
 
 include "function.php";
+include "../core/DB.php";
 
+use src\core\DB;
+
+$method = $_SERVER["REQUEST_METHOD"];
 session_start();
 
-$_SESSION["login-whether"] = false;
+if($method == "GET") {
+	if($_SESSION["login-whether"] == true) {
+		alert("비회원만 사용 가능한 기능입니다.");
 
-if($_SESSION["login-whether"] == true) {
-	alert("비회원만 사용 가능한 기능입니다.");
-
-	echo "<script>document.location.href='/webskills/main.php';</script>";
-}else {
+		echo "<script>document.location.href='/webskills/main.php';</script>";
+	}else header("Location: /webskills/main.php");
+}else{
 	$email = $_POST["email"];
 	$password = $_POST["password"];
 	$name = $_POST["name"];
 	$birthday = $_POST["birthday"];
 	$img = $_FILES["img"]["name"];
 
-	global $duplicate;
-	$duplicate = false;
-
-	$conn = mysqli_connect(
-		"localhost",
-		"root",
-		"",
-		"people"
-	);
-
-	Duplicate_check($email, $conn);
-	register($email, $password, $name, $birthday, $img, $conn);
-
+	register($email, $password, $name, $birthday, $img);
 };
 
-function Duplicate_check($email, $conn) {
-	$sql = "select * from person where Email='$email';";
-	$result = mysqli_query($conn, $sql);
+function register($email, $password, $name, $birthday, $img) {
+	$img_path = "../account/image/user/";
 
-	while($row = mysqli_fetch_assoc($result)) {
-		if($row) {
-			global $duplicate;
-			$duplicate = true;
-		};
-	};
-};
-
-function register($email, $password, $name, $birthday, $img, $conn) {
-	global $duplicate;
-	
-	if($duplicate == false) {
-		$img_path = "../account/image/user/";
-
-		$imgs = $_FILES["img"]["name"];
+	$imgs = $_FILES["img"]["name"];
+	if($imgs) {
 
 		$imgs = explode(".", $imgs);
 		$img_nm = cut_email($email)."_profile_img.".$imgs[1];
@@ -58,19 +36,16 @@ function register($email, $password, $name, $birthday, $img, $conn) {
 		$sql_path = "../account/image/user/";
 		$sql_img_path = $sql_path.$img_nm;
 
-		$sql = "insert into person values('$email', password('$password'), '$name', '$birthday', '$sql_img_path', now());";
-		$result = mysqli_query($conn, $sql);
+		DB::fetch("insert into person values('$email', password('$password'), '$name', '$birthday', '$sql_img_path', now());", []);
 
 		move_uploaded_file($_FILES["img"]["tmp_name"], $img_path.$img_nm);
-
-		alert("회원가입 완료되었습니다");
-
-		echo "<script>document.location.href='/webskills/src/page/login.html';</script>";
 	}else {
-		alert("중복된 이메일입니다.");
-
-		echo "<script>document.location.href='/webskills/src/page/register.html';</script>";
+		DB::fetch("insert into person(Email, Password, Name, Birth, Time) values('$email', password('$password'), '$name', '$birthday', now());", []);		
 	};
+
+	alert("회원가입 완료되었습니다");
+
+	echo "<script>document.location.href='/webskills/src/page/login.html';</script>";
 };
 
 function cut_email($email) {

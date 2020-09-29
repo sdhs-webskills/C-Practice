@@ -46,17 +46,17 @@ window.onload = () => {
 		})
 		.then(req => {return req.json()})
 		.then(res => {
-			result.innerHTML = "";
-			if([...res].length > 0) {
-				[...res].forEach(item => {
-					friend_check(item[0])
-					.then(res => {
-						if(res == false) search_result(item);
-						
-					})
-				});
-			}else{
-				result.innerHTML = "존재하지 않는 유저입니다.";
+			if(res?.message) result.innerHTML = msg_change(res.message);
+			else {
+				result.innerHTML = "";
+				if([...res].length > 0) {
+					[...res].forEach(item => {
+						friend_check(item[0])
+						.then(res => {
+							if(res == false) search_result(item);
+						});
+					});
+				};
 			};
 		})
 		.catch(err => {
@@ -123,4 +123,11 @@ window.onload = () => {
 		.then(res => {return res})
 		.catch(err => console.log(err));
 	};
+
+	function msg_change(msg) {
+		switch(msg) {
+			case "fail to search user" : return "존재하지 않는 유저입니다.";
+			case "can't search myself" : return "본인은 검색할 수 없습니다.";
+		}
+	}
 };

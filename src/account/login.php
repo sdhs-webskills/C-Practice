@@ -1,28 +1,22 @@
 <?php
 
 include "function.php";
+include "../core/DB.php";
+
+use src\core\DB;
 
 $email = $_POST["email"];
 $password = $_POST["password"];
 
-$conn = mysqli_connect(
-	"localhost",
-	"root",
-	"",
-	"people"
-);
+login($email, $password);
 
-login($email, $password, $conn);
-
-function login($email, $password, $conn) {
+function login($email, $password) {
 	$id_check = false;
 	$pw_check = false;
 
-	$sql = "select * from person where Email='$email' and Password=password('$password');";
-	$result = mysqli_query($conn, $sql);
-	$row = mysqli_fetch_row($result);
+	$result = DB::fetch("select * from person where Email='$email' and Password=password('$password');", []);
 
-	if($row) {
+	if($result) {
 		session_start();
 
 		$_SESSION["email"] = $email;
@@ -30,16 +24,14 @@ function login($email, $password, $conn) {
 
 		header('Location: /webskills/main.php');
 	}else{
-		$sql = "select * from person where Email='$email';";
-		$result = mysqli_query($conn, $sql);
-		$email_row = mysqli_fetch_row($result);
+		$result = DB::fetch("select * from person where Email='$email';", []);
 
 		session_start();
 
 		$_SESSION["email"] = "";
 		$_SESSION["login-whether"] = false;
 
-		if($email_row) {
+		if($result) {
 			alert("비밀번호를 확인해주세요.");
 
 			echo "<script>document.location.href='/webskills/src/page/login.html';</script>";
