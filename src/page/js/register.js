@@ -68,13 +68,17 @@ window.onload = () => {
 		let name = target[3]; 	  // 한국어, 영어, 숫자(숫자만 제외) 2~10글자
 		let birthday = target[4]; // [yyyy-mm-dd] 1920-01-01 ~ 현재
 
-		let email_result = email.value.match(new RegExp(/[A-Z|a-z|0-9]*@[A-Za-z]*\.[A-Za-z]{2,3}/g));
+		let email_result = email.value.match(new RegExp(/[A-Z|a-z|0-9]*@[A-Za-z]*\.[A-Z|a-z]{2,3}/g));
+		let email_result2 = email.value.match(new RegExp(/[A-Z|a-z|0-9]*@[A-Za-z]*\.[A-Z|a-z]{2,3}\.[A-Z|a-z]*/g));
 		let pw_result = pw.value.match(new RegExp(/^[A-Za-z0-9!@#$%^&*()]*$/g));
 		let name_result = name.value.match(new RegExp(/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|A-Z|a-z]{2,10}$/g));
 		let birth_result = birth_check(birthday.value);
 
 		let target_arr = [email, pw, name, birthday];
-		let arr = [email_result, pw_result, name_result, birth_result];
+		let arr = [pw_result, name_result, birth_result];
+
+		if(email_result2 == null) arr.unshift(email_result);
+		else arr.unshift(email_result2);
 
 		let check = true;
 
@@ -86,7 +90,7 @@ window.onload = () => {
 			}else check = true;
 		});
 		
-		return check;
+		//return check;
 	};
 	function birth_check(birth) {
 		let year = birth.substr(0, 4);
