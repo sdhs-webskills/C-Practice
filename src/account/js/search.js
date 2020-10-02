@@ -128,6 +128,6 @@ window.onload = () => {
 		switch(msg) {
 			case "fail to search user" : return "존재하지 않는 유저입니다.";
 			case "can't search myself" : return "본인은 검색할 수 없습니다.";
-		}
-	}
+		};
+	};
 };

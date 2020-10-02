@@ -33,7 +33,26 @@ function make_box(obj) {
 	agree_btn.innerHTML = "친구수락";
 	disagree_btn.innerHTML = "거절";
 
+	agree_btn.addEventListener("click", add_friend);
+
 	btn_box.append(agree_btn, disagree_btn);
 	box.append(req, date, btn_box);
 	wrap.append(box);
+};
+
+function add_friend() {
+	let req = this.parentNode.parentNode.children[0].innerHTML;
+	let url = "friend_add.php";
+	let form = new FormData();
+	form.append("email", req.split(":")[1].trim());
+
+	fetch(url, {
+		mode: "cors",
+		method: "post",
+		headers: {
+			"Access-Control-Allow-Origin" : "*"
+		},
+		body: form
+	})
+	.catch(err => console.log(err));
 };
