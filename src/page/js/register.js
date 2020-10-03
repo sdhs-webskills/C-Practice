@@ -74,8 +74,8 @@ window.onload = () => {
 		let name_result = name.value.match(new RegExp(/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|A-Z|a-z]{2,10}$/g));
 		let birth_result = birth_check(birthday.value);
 
-		let target_arr = [email, pw, name, birthday];
-		let arr = [pw_result, name_result, birth_result];
+		let target_arr = [email, pw, name];
+		let arr = [pw_result, name_result];
 
 		if(email_result2 == null) arr.unshift(email_result);
 		else arr.unshift(email_result2);
@@ -90,6 +90,12 @@ window.onload = () => {
 			}else check = true;
 		});
 		
+		if(birth_result == false) {
+			check = false;
+			alert("생년월일칸의 형식이 잘못되었습니다");
+			birthday.focus();
+		};
+
 		return check;
 	};
 	function birth_check(birth) {
@@ -97,9 +103,9 @@ window.onload = () => {
 		let month = birth.substr(5, 2);
 		let day = birth.substr(8, 10);
 
-		let year_check = (year > 1920);
-		let month_check = (0 < month < 13);
-		let day_check = (0 < day <= 31);
+		let year_check = 1920 < year && year < new Date().getFullYear();
+		let month_check = 0 < month && month < 13;
+		let day_check = 0 < day && day <= 31;
 
 		if(year_check && month_check && day_check)
 			return true;
@@ -183,11 +189,8 @@ window.onload = () => {
 		})
 		.then(req => {return req.json()})
 		.then(res => {
-			if(email_duplicate(res.message)) {
+			if(email_duplicate(res.message))
 				email.parentNode.submit();
-			}else{
-				console.log("false");
-			}
 		})
 		.catch(err => console.log(err));
 	};
@@ -195,7 +198,10 @@ window.onload = () => {
 		let check = false;
 
 		if(msg == "duplicate") {
-			let li = document.createElement("li");
+			var li = document.querySelector("li[name='duplicate-error']");
+			if(li) document.body.removeChild(li);
+
+			var li = document.createElement("li");
 			li.setAttribute("name", "duplicate-error");
 			li.innerHTML = "중복된 이메일입니다.";
 
