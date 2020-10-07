@@ -52,10 +52,10 @@ window.onload = function(e) {
       if(!validate(target.birth.value)) return alert("생일 형식이 잘못되었습니다.");
     }
 
-    const ext = target.profile.value.replace(/.*\.(.*)/, '$1').toLowerCase();
-    if( !["jpg","png","gif"].includes(ext) ) {
-      return alert("이미지 파일만 업로드 가능합니다.");
-    }
+    // const ext = target.profile.value.replace(/.*\.(.*)/, '$1').toLowerCase();
+    // if( !["jpg","png","gif"].includes(ext) ) {
+    //   return alert("이미지 파일은 jpg, png, gif 파일만 업로드 가능합니다.");
+    // }
 
     if(target.code.value != codeSet) {
       return alert("캡차 문구가 일치하지 않습니다.");
