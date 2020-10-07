@@ -17,15 +17,17 @@ class DB
     public static function execute($sql, $data = [])
     {
         $query = self::getDB()->prepare($sql);
-        $query->execute($data);
-        return $query->fetch($mode);
+        return $query->execute($data);
     }
 
-    public static function fetchAll($sql, $data = [], $mode = \PDO::FETCH_OBJ)
+    public static function fetch($sql, $data = [])
     {
-        $query = self::getDB()->prepare($sql);
-        $query->execute($data);
-        return $query->fetchAll($mode);
+        return self::execute($sql, $data)->fetch(\PDO::FETCH_OBJ);
+    }
+
+    public static function fetchAll($sql, $data = [])
+    {
+        return self::execute($sql, $data)->fetchAll(\PDO::FETCH_OBJ);
     }
     public static function lastId()
     {

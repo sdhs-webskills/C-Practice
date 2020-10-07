@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Core\Controller;
 
 use Core\App\DB;

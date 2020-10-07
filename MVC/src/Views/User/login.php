@@ -1,10 +1,22 @@
+<?php
+
+session_start();
+
+if(isset($_POST["userid"])) {
+    $_SESSION["user"] = $_POST["userid"];
+    
+    header("Location: ../layout/header.php");
+    exit;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>얼굴책 로그인</title>
-    <link rel="stylesheet" type="text/css" href="./common.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
 </head>
 <body>
     <div class="container">
@@ -27,15 +39,3 @@
     </div>
 </body>
 </html>
-
-<?php
-
-session_start();
-
-if(isset($_POST["userid"])) {
-    $_SESSION["user"] = $_POST["userid"];
-    
-    header("Location: ../layout/header.php");
-}
-
-?>
