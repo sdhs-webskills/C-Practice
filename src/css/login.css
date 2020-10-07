@@ -1,0 +1,13 @@
+@charset "utf-8";
+*{margin:0;padding:0;box-sizing:border-box;}
+
+form{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;justify-content:space-around;background:#c6ffe9;padding:50px;border-radius:15px;}
+.login_form{height:350px;}
+.join_form{height:750px;}
+input{width:300px;height:50px;border-radius:40px;font-size:20px;line-height:20px;padding:13px;text-align:left;}
+#code_cvs{width:300px;height:50px;}
+input:focus{outline:none;}
+.emailBox{position:relative;}
+#validateEmail{color:#f00;position:absolute;left:20px;font-size:12px;bottom:-16px;display:none;}
+
+input[type="submit"]{text-align:center;}
