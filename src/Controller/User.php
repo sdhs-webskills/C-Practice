@@ -43,11 +43,16 @@ class User
       return back("이미지 파일만 업로드 가능합니다.");
     }
 
-    if ($imageType[1] !== "jpg" && $imageType[1] !== "png" && $imageType[1] !== "gif") {
+    $imageType = end(explode(".", $_FILES["profile"]["name"]));
+
+    if ($imageType !== "jpg" && $imageType !== "png" && $imageType !== "gif") {
+      // return print_r($imageType);
       return back("이미지 파일은 jpg, png, gif 파일만 업로드 가능합니다.");
     }
 
-    $imgName = $_POST["id"] . time() . "." . $imageType[1];
+
+
+    $imgName = $_POST["id"] . time() . "." . $imageType;
 //		echo $imgName;
     $sql = "INSERT INTO `users`(`email`, `pass`, `name`, `birth`, `image`) VALUES (?,?,?,?,?)";
     DB::query($sql, [$_POST["id"], $_POST["pass"], $_POST["name"], $_POST["birth"], $imgName]);

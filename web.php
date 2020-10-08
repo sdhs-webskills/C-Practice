@@ -9,6 +9,7 @@ if(ss()) {
   Route::reg([
     ["get","/@MainController@main"],
     ["get","/logout@User@logout"],
+    ["get","/userSearch@MainController@userSearch"],
   ]);
 }else {
   Route::reg([
