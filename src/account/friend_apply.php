@@ -49,6 +49,8 @@ if($method == "GET") {
 		// 친구 요청을 보낸적이 없으면
 		if($check == false) {
 
+			$friend_check = false; // 친구인지 아닌지 체크
+
 			// 친구 요청 쿼리를 보냄
 			$result = DB::fetch("insert into friend_apply values('$requester', '$responser', now());", []);
 
