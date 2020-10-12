@@ -63,10 +63,10 @@ window.onload = () => {
 	};
 	const file_type_check = img => img.match(new RegExp(/\.png|\.jpg|\.jpeg|\.git|\.bmp/));
 	function form_check(target) {
-		let email = target[0];	  // 영어 이메일 형식
-		let pw = target[1]; 	  // 영어 대소문자, 숫자, 특수문자(0~9까지만 가능) 혼합
-		let name = target[3]; 	  // 한국어, 영어, 숫자(숫자만 제외) 2~10글자
-		let birthday = target[4]; // [yyyy-mm-dd] 1920-01-01 ~ 현재
+		let email = target[0];
+		let pw = target[1];
+		let name = target[3];
+		let birthday = target[4];
 
 		let email_result = email.value.match(new RegExp(/[A-Z|a-z|0-9]*@[A-Za-z]*\.[A-Z|a-z]{2,3}/g));
 		let email_result2 = email.value.match(new RegExp(/[A-Z|a-z|0-9]*@[A-Za-z]*\.[A-Z|a-z]{2,3}\.[A-Z|a-z]*/g));

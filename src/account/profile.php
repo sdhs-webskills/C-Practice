@@ -1,22 +1,41 @@
 <?php
 
-if($method == "GET") header("Location: /webskills/main.php");
-else {
+include "../core/DB.php";
+
+use src\core\DB;
+
+$method = $_SERVER["REQUEST_METHOD"];
+
+session_start();
+
+$email = $_SESSION["email"];
+
+if($method == "GET") {
+	$info = DB::fetch("select Email, Name, Birth, Img from person where Email='$email';", []);
+
+}else {
 	if(isset($_POST["email"])) {
 		$email = $_POST["email"];
 
-		$conn = mysqli_connect(
-			"localhost",
-			"root",
-			"",
-			"people"
-		);
+		$result = DB::fetch("select Email, Name, Birth, Img from person where Email='$email';", []);
 
-		$sql = "select Email, Name, Birth, Img from person where Email='$email';";
-		$result = mysqli_query($conn, $sql);
-		$row = mysqli_fetch_row($result);
+	}else if($email) {
+		print_r(json_encode(getFriendArr($email)));
 
+		return false;
 	}else header("Location: /webskills/main.php");
+
+	return false;
+};
+
+function getFriendArr($email) {
+	$friend_result = DB::fetchAll("select Requester, Responser, Add_Time, Email, Name, Birth from friend inner join person on Requester='$email' and Email=Responser order by Add_Time asc;", []);
+
+	$friend_result2 = DB::fetchAll("select Requester, Responser, Add_Time, Email, Name, Birth from friend inner join person on Responser='$email' and Email=Requester order by Add_Time asc;", []);
+
+	if($friend_result) return $friend_result;
+	else if($friend_result2) return $friend_result2;
+	else return "not friend";
 };
 
 ?>
@@ -25,13 +44,20 @@ else {
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
+	<script src="js/profile.js"></script>
 </head>
 <body>
 	<div id="info">
-		<img src="" alt="">
-		<li id="email"></li>
-		<li id="name"></li>
-		<li id="birth"></li>
+		<img src="<?= $info[3] ?>" alt="">
+		<li id="email"><?= $info[0] ?></li>
+		<li id="name"><?= $info[1] ?></li>
+		<li id="birth"><?= $info[2] ?></li>
+	</div>
+	<hr>
+	<li>친구</li>
+	<hr>
+	<div id="friend-list">
+		
 	</div>
 </body>
 </html>

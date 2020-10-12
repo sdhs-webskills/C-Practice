@@ -1,5 +1,8 @@
 <?php
 
+include "../core/DB.php";
+
+use src\core\DB;
 $method = $_SERVER["REQUEST_METHOD"];
 
 if($method == "GET") header("Location: /webskills/main.php");
@@ -10,28 +13,17 @@ else {
 		$requester = $_SESSION["email"];
 		$responser = $_POST["email"];
 
-		$conn = mysqli_connect(
-			"localhost",
-			"root",
-			"",
-			"people"
-		);
+		$result = DB::fetch("select * from friend where Requester='$requester' and Responser='$responser';", []);
 
-		$sql = "select Responser from friend where Requester='$requester';";
-		$result = mysqli_query($conn, $sql);
+		$result2 = DB::fetch("select * from friend where Requester='$responser' and Responser='$requester';", []);
 
-		$check = false;
-
-		while($row = mysqli_fetch_row($result)) {
-			global $check;
-			if($row[0] == $responser) {
-				$check = true;
-				break;
-			}else continue;
-		};
-
-		echo(json_encode($check));
-
+		if($result) print_r(json_encode($result));
+		else if($result2) print_r(json_encode($result2));
+		else {
+			print_r(json_encode(array(
+				"message" => "nothing to search"
+			)));
+		}
 	}else header("Location: /webskills/main.php");
 };
 

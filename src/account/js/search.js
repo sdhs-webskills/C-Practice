@@ -51,9 +51,9 @@ window.onload = () => {
 				result.innerHTML = "";
 				if([...res].length > 0) {
 					[...res].forEach(item => {
-						friend_check(item[0])
+						friendApply_check(item[0])
 						.then(res => {
-							if(res == false) search_result(item);
+							search_result(item, res);
 						});
 					});
 				};
@@ -63,7 +63,7 @@ window.onload = () => {
 			console.log(err);
 		});
 	};
-	function search_result(arr) {
+	function search_result(arr, bool) {
 		let box = document.createElement("div");
 		let img = document.createElement("img");
 		let email = document.createElement("li");
@@ -76,7 +76,9 @@ window.onload = () => {
 		name.innerHTML = arr[1];
 		birth.innerHTML = arr[2];
 
-		if(friend_check(arr[0]) == true) btn.innerHTML = "친구끊기";
+		if(friend_check(arr[0])?.message) {
+			console.log(friend_check(arr[0]).message);
+		}else if(friend_check(arr[0])) btn.innerHTML = "친구끊기";
 		else btn.innerHTML = "친구요청";
 
 		btn.addEventListener("click", function(e) {
@@ -106,8 +108,8 @@ window.onload = () => {
 		})
 		.catch(err => console.log(err));
 	};
-	function friend_check(email) {
-		let url = "friend_check.php";
+	function friendApply_check(email) {
+		let url = "friendApply_check.php";
 		let form = new FormData();
 		form.append("email", email);
 
@@ -120,7 +122,21 @@ window.onload = () => {
 			body: form
 		})
 		.then(req => {return req.json()})
-		.then(res => {return res})
+		// .then(res => {return res})
+		.catch(err => console.log(err));
+	};
+	function friend_check(email) {
+		let url = "friend_check.php";
+		let form = new FormData();
+		form.append("email", email);
+
+		return fetch(url, {
+			mode: "cors",
+			method: "post",
+			body: form
+		})
+		.then(req => {return req.json()})
+		.then(res => {return res;})
 		.catch(err => console.log(err));
 	};
 
@@ -128,6 +144,7 @@ window.onload = () => {
 		switch(msg) {
 			case "fail to search user" : return "존재하지 않는 유저입니다.";
 			case "can't search myself" : return "본인은 검색할 수 없습니다.";
+			case "nothing to search" : return "친구가 아닙니다";
 		};
 	};
 };
