@@ -70,15 +70,18 @@ function getFriendArr($email) {
 	<?php endif;?>
 	<?php
 
-	$requester = $_SESSION["email"];
-	$responser = $_GET["email"];
+	if(isset($_GET["email"])) {
 
-	$result = DB::fetch("select * from friend where Requester='$requester' and Responser='$responser';", []);
+		$requester = $_SESSION["email"];
+		$responser = $_GET["email"];
 
-	$result2 = DB::fetch("select * from friend where Requester='$responser' and Responser='$requester';", []);
+		$result = DB::fetch("select * from friend where Requester='$requester' and Responser='$responser';", []);
 
-	if($result || $result2)	echo "<button>친구 끊기</button>";
-	else echo "<button>친구 추가</button>";
+		$result2 = DB::fetch("select * from friend where Requester='$responser' and Responser='$requester';", []);
+
+		if($result || $result2)	echo "<button>친구 끊기</button>";
+		else echo "<button>친구 추가</button>";
+	};
 	?>
 </body>
 </html>
