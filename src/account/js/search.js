@@ -72,8 +72,8 @@ window.onload = () => {
 		let btn = document.createElement("button");
 
 		img.setAttribute("src", arr[3]);
-		email.innerHTML = arr[0];
-		name.innerHTML = arr[1];
+		email.innerHTML = `<a href="profile.php?email=${arr[0]}">${arr[0]}</a>`;
+		name.innerHTML = `<a href="profile.php?email=${arr[0]}">${arr[1]}</a>`;
 		birth.innerHTML = arr[2];
 
 		if(friend_check(arr[0])?.message) {

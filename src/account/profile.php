@@ -11,8 +11,13 @@ session_start();
 $email = $_SESSION["email"];
 
 if($method == "GET") {
-	$info = DB::fetch("select Email, Name, Birth, Img from person where Email='$email';", []);
+	if(isset($_GET["email"])) {
+		$user = $_GET["email"];
 
+		$info = DB::fetch("select Email, Name, Birth, Img from person where Email='$user';", []);
+	}else {
+		$info = DB::fetch("select Email, Name, Birth, Img from person where Email='$email';", []);
+	};
 }else {
 	if(isset($_POST["email"])) {
 		$email = $_POST["email"];
@@ -44,7 +49,9 @@ function getFriendArr($email) {
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
-	<script src="js/profile.js"></script>
+	<?php if(!isset($_GET["email"])): ?>
+		<script src="js/profile.js"></script>
+	<?php endif;?>
 </head>
 <body>
 	<div id="info">
@@ -54,10 +61,24 @@ function getFriendArr($email) {
 		<li id="birth"><?= $info[2] ?></li>
 	</div>
 	<hr>
-	<li>친구</li>
-	<hr>
-	<div id="friend-list">
-		
-	</div>
+	<?php if(!isset($_GET["email"])): ?>
+		<li>친구</li>
+		<hr>
+		<div id="friend-list">
+
+		</div>
+	<?php endif;?>
+	<?php
+
+	$requester = $_SESSION["email"];
+	$responser = $_GET["email"];
+
+	$result = DB::fetch("select * from friend where Requester='$requester' and Responser='$responser';", []);
+
+	$result2 = DB::fetch("select * from friend where Requester='$responser' and Responser='$requester';", []);
+
+	if($result || $result2)	echo "<button>친구 끊기</button>";
+	else echo "<button>친구 추가</button>";
+	?>
 </body>
 </html>

@@ -23,7 +23,7 @@ else {
 			print_r(json_encode(array(
 				"message" => "nothing to search"
 			)));
-		}
+		};
 	}else header("Location: /webskills/main.php");
 };
 
