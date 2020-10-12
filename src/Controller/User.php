@@ -1,7 +1,5 @@
 <?php
-
 namespace src\Controller;
-// session_start();
 use src\Core\DB;
 
 class User
