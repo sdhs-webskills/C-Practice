@@ -1,9 +1,9 @@
 <?php
 
 include "../account/function.php";
-include "../core/DB.php";
+include "../core/Board.php";
 
-use src\core\DB;
+use src\core\Board;
 
 $method = $_SERVER["REQUEST_METHOD"];
 
@@ -20,8 +20,10 @@ if($method == "GET") {
 }else{
 	extract($_POST);
 	if($content) {
-		$add_writer = DB::fetch("insert into writer values('$email', '$title');", []);
-		$add_text = DB::fetch("insert into content values('$email', '$title', '$content', now());", []);
+		$add_writer = Board::fetch("insert into writer values('$email', '$title');", []);
+		$add_text = Board::fetch("insert into content values('$email', '$title', '$content', now(), 'N');", []);
+
+		header("Location: /webskills/src/account/profile.php");
 	};
 };
 

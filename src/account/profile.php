@@ -15,9 +15,9 @@ if($method == "GET") {
 		$user = $_GET["email"];
 
 		$info = DB::fetch("select Email, Name, Birth, Img from person where Email='$user';", []);
-	}else {
+	}else if($email) {
 		$info = DB::fetch("select Email, Name, Birth, Img from person where Email='$email';", []);
-	};
+	}else header("Location: /webskills/main.php");
 }else {
 	if(isset($_POST["email"])) {
 		$email = $_POST["email"];
@@ -49,6 +49,7 @@ function getFriendArr($email) {
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="css/profile.css">
 	<?php if(!isset($_GET["email"])): ?>
 		<script src="js/profile.js"></script>
 	<?php endif;?>

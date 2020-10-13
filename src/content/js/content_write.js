@@ -9,7 +9,11 @@ window.onload = () => {
 		let title = this.children[2];
 		let content = this.children[3];
 
-		if(form_check(title, content) && img_check) this.submit();
+		if(img_check) {
+			if(form_check(title, content) && img_check) this.submit();
+		}else {
+			if(form_check(title, content)) this.submit();
+		};
 	});
 	img.addEventListener("change", function(e) {
 		if(file_type_check(e.target.value) != null) {
