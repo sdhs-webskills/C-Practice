@@ -88,6 +88,9 @@ function getFriendArr($email) {
 	<hr>
 	<div id="content">
 		<button><a href="/webskills/src/content/content_write.php">게시글 등록</a></button>
+		<div id="content_list">
+			
+		</div>
 	</div>
 </body>
 </html>

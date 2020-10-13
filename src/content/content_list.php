@@ -1,7 +1,11 @@
 <?php
 
-$result = DB::fetch("select Email, writer.Title, content.Title, Text, Upd_date from writer inner join content on Writer=Email and writer.Title=content.Title", []);
+include "../core/DB.php";
 
-print_r(json_encode($result))
+use src\core\DB;
+
+$result = DB::fetchAll("select Email, writer.Title, content.Title, Text, Upd_date from writer inner join content on Writer=Email and writer.Title=content.Title;", []);
+
+print_r(json_encode("select Email, writer.Title, content.Title, Text, Upd_date from writer inner join content on Writer=Email and writer.Title=content.Title;"));
 
 ?>

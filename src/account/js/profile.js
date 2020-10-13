@@ -1,16 +1,14 @@
-let url = "profile.php";
-
-fetch(url, {
+fetch("profile.php", {
 	mode: "cors",
 	method: "post",
 })
 .then(req => {return req.json()})
 .then(res => {
-	let list = document.querySelector("#friend-list");
-	list.innerHTML = "";
+	let friend_list = document.querySelector("#friend-list");
+	friend_list.innerHTML = "";
 
 	res.forEach(item => {
-		friendBox(item, list);
+		friendBox(item, friend_list);
 	});
 })
 .catch(err => console.log(err));
@@ -22,8 +20,6 @@ function friendBox(obj, list) {
 	let birth = document.createElement("li");
 	let hr = document.createElement("hr");
 
-	console.log(obj);
-
 	name.innerHTML = obj[4];
 	email.innerHTML = obj[1];
 	birth.innerHTML = obj[5];
@@ -31,3 +27,13 @@ function friendBox(obj, list) {
 	box.append(name, email, birth, hr);
 	list.append(box);
 };
+
+fetch("../content/content_list.php", {
+	mode: "cors",
+	method: "get"
+})
+.then(req => {return req.json()})
+.then(res => {
+	console.log(res);
+})
+.catch(err => console.log(err));
