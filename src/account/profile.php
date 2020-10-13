@@ -80,8 +80,14 @@ function getFriendArr($email) {
 		$result2 = DB::fetch("select * from friend where Requester='$responser' and Responser='$requester';", []);
 
 		if($result || $result2)	echo "<button>친구 끊기</button>";
-		else echo "<button>친구 추가</button>";
+		else echo "<button>친구 요청</button>";
 	};
 	?>
+	<hr>
+	<li>게시글</li>
+	<hr>
+	<div id="content">
+		<button><a href="/webskills/src/content/content_write.php">게시글 등록</a></button>
+	</div>
 </body>
 </html>
