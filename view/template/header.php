@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -9,12 +9,13 @@
 </head>
 <body>
 <ul>
+    <li><a href="/user/usersearch">사용자검색</a></li>
     <li><a href="/">HOME</a></li>
     <?php if (isset($_SESSION['user'])) { ?>
         <li><?php echo $_SESSION['user']->name?>님 환영합니다.</li>
         <li><a href="/user/logout">로그아웃</a></li>
     <?php } else { ?>
         <li><a href="/user/login">로그인</a></li>
-        <li><a href="/user/join">회원가입</a></li
+        <li><a href="/user/join">회원가입</a></li>
     <?php } ?>
 </ul>
