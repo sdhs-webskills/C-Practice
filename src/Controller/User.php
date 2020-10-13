@@ -20,7 +20,7 @@ class User
 
     if ($user) {
       $_SESSION["user"] = $user;
-
+      // print_r($user);
       move("/", "로그인 되었습니다.");
     } else {
       back("아이디 또는 비밀번호가 일치하지 않습니다.");

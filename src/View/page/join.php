@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>php_skills</title>
-  <link rel="stylesheet" href="./src/css/login.css">
-  <script src="./src/js/join.js"></script>
+  <link rel="stylesheet" href="./public/css/login.css">
+  <script src="./public/js/join.js"></script>
 </head>
 <body>
   <div class="center">
