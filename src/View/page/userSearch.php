@@ -1,48 +1,55 @@
   <link rel="stylesheet" href="./public/css/userSearch.css">
 </head>
 <body>
-<a href="/">홈</a>
-<form class="searchBox" action="" method="GET">
-<?php if(empty($_GET["search"])) {?>
-  <input type="text" name="search" id="search" placeholder="이름 또는 이메일">
-<?php }else { ?>
-  <input type="text" name="search" id="search" placeholder="이름 또는 이메일" value="<?=$_GET["search"]?>">
-<?php } ?>
-  <input type="submit" value="검색">
-</form>
-<div class="searchList">
-    <?php
-    if(isset($_SESSION["searchUsers"])) {
-      $users = $_SESSION["searchUsers"];
-      $count = count($users);
-      foreach($users as $user) {
-        $data = $user;
-        $idx = $user->idx;
-        $name = $user->name;
-        $image = $user->image;
-        $birth = $user->birth;
-        $friend = $user->friend;
-        print_r($friend);
-        ?>
-        <div class="list">
-          <img src="./public/images/user_profile/<?=$image?>" alt="<?=$name?>">
-          <div class="data">
-            <p><?=$name?></p>
-            <p><?=$birth?></p>
+  <div class="header">
+    <a href="/">홈</a>
+  </div>
+  <form class="searchBox" action="" method="GET">
+  <?php if(empty($_GET["search"])) {?>
+    <input type="text" name="search" id="search" placeholder="이름 또는 이메일">
+  <?php }else { ?>
+    <input type="text" name="search" id="search" placeholder="이름 또는 이메일" value="<?=$_GET["search"]?>">
+  <?php } ?>
+    <input type="submit" value="검색">
+  </form>
+  <div class="searchList">
+      <?php
+        foreach($searchedUser as $user) {
+          $data = $user;
+          $idx = $user->idx;
+          $email = $user->email;
+          $name = $user->name;
+          $image = $user->image;
+          $birth = $user->birth;
+          $checked = false;
+          foreach ($friends as $friend) {
+            if ($friend->friend === $idx) {
+              $checked = true;
+              break;
+            }
+          }
+          ?>
+          <div class="list">
+            <a href="/profile?email=<?=$email?>"><img src="./public/images/user_profile/<?=$image?>" alt="<?=$name?>"></a>
+            <div class="data">
+            <a href="/profile?email=<?=$email?>"><p><?=$name?></p></a>
+              <p><?=$birth?></p>
+            </div>
+            <form action="/requestFriend" method="POST">
+              <input type="text" name="key" id="key" class="none" value="<?=$idx?>" readonly>
+              <?php if($checked) { ?>
+              <input type="text" name="whether" class="none whether" value="1" readonly>
+              <input type="submit" value="친구끊기" class="friend__button" readonly>
+              <?php } else { ?>
+              <input type="text" name="whether" class="none whether" value="0" readonly>
+              <input type="submit" value="친구요청" class="friend__button" readonly>
+              <?php } ?>
+            </form>
           </div>
-          <form action='POST'>
-            <input type='text' name='key' id='key' class='none' value='<?=$idx?>'>
-            <?php if($friend[1] == 1) { ?>
-            <input type='submit' value='친구 끊기' class="friend__button">
-            <?php }else { ?>
-            <input type='submit' value='친구 끊기' class="friend__button">
-            <?php } ?>
-          </form>
-        </div>
-        <?php
-      }
-    }
-    ?>
-</div>
+          <?php } ?>
+          <?php if(count($searchedUser) === 0) { ?>
+          <p>존재하지 않는 유저입니다.</p>
+          <?php } ?>
+  </div>
 
 
