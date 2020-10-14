@@ -68,6 +68,10 @@ class User
     echo json_encode($response);
   }
 
+  public function profile() {
+    $user = DB::fetch("SELECT * FROM users WHERE email = ?", [$_GET["email"]]);
+    view("profile",[ 'profile' => $user ]);
+  }
 
 }
 
