@@ -23,9 +23,10 @@ if($method == "GET") {
 		$add_writer = board::fetch("insert into writer values('$email', '$title');", []);
 		$add_text = board::fetch("insert into content values('$email', '$title', '$content', now(), 'N');", []);
 
-		alert("게시글이 생성되었습니다.");
+		print_r(explode("@", $email));
+		// alert("게시글이 생성되었습니다.");
 		
-		echo "<script>document.location.href='/webskills/src/account/profile.php';</script>";
+		// echo "<script>document.location.href='/webskills/src/account/profile.php';</script>";
 	};
 };
 
