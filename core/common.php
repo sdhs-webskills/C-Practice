@@ -9,3 +9,8 @@
         include_once(HOME . "/actions/{$page}.php");
         exit;
     }
+
+    if ($page === 'api') {
+        include_once(HOME . "/api/{$action}.php");
+        exit;
+    }
