@@ -23,11 +23,22 @@ if($method == "GET") {
 		$add_writer = board::fetch("insert into writer values('$email', '$title');", []);
 		$add_text = board::fetch("insert into content values('$email', '$title', '$content', now(), 'N');", []);
 
-		print_r(explode("@", $email));
+		$arr = explode("@", $email);
+		$idx = 1;
+		print_r($arr[0]."_".$idx);
+
+		$test = board::fetch("select * from content where Email='asdf@asdf.asdf';", []);
+		
+		if($test) print_r($test);
 		// alert("게시글이 생성되었습니다.");
 		
 		// echo "<script>document.location.href='/webskills/src/account/profile.php';</script>";
 	};
+};
+
+function Duplicate_check($str, $idx) {
+	$id = $str."_".$idx;
+	$result = board::fetch("select id from content where Id='';", []);
 };
 
 date_default_timezone_set("Asia/Seoul");
