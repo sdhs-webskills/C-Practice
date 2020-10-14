@@ -25,7 +25,8 @@ window.onload = () => {
 		else if(name_result != null || undefined) return "name";
 		else {
 			alert("이메일과 이름형식으로만 검색 가능합니다");
-			return "none";
+
+			return false;
 		};
 	};
 
@@ -59,9 +60,7 @@ window.onload = () => {
 				};
 			};
 		})
-		.catch(err => {
-			console.log(err);
-		});
+		.catch(err => console.log(err));
 	};
 	function search_result(arr, bool) {
 		let box = document.createElement("div");

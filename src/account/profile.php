@@ -23,7 +23,6 @@ if($method == "GET") {
 		$email = $_POST["email"];
 
 		$result = people::fetch("select Email, Name, Birth, Img from person where Email='$email';", []);
-
 	}else if($email) {
 		print_r(json_encode(getFriendArr($email)));
 
@@ -36,10 +35,10 @@ if($method == "GET") {
 function getFriendArr($email) {
 	$friend_result = people::fetchAll("select Requester, Responser, Add_Time, Email, Name, Birth from friend inner join person on Requester='$email' and Email=Responser order by Add_Time asc;", []);
 
-	$friend_result2 = people::fetchAll("select Requester, Responser, Add_Time, Email, Name, Birth from friend inner join person on Responser='$email' and Email=Requester order by Add_Time asc;", []);
+	// $friend_result2 = people::fetchAll("select Requester, Responser, Add_Time, Email, Name, Birth from friend inner join person on Responser='$email' and Email=Requester order by Add_Time asc;", []);
 
 	if($friend_result) return $friend_result;
-	else if($friend_result2) return $friend_result2;
+	// else if($friend_result2) return $friend_result2;
 	else return "not friend";
 };
 
