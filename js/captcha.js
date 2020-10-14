@@ -11,3 +11,4 @@ const getCaptchaString = () => Array(6)
     .join('');
 
 document.querySelector('#maincaptcha').value = getCaptchaString();
+
