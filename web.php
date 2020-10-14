@@ -10,6 +10,8 @@ if(ss()) {
     ["get","/@MainController@main"],
     ["get","/logout@User@logout"],
     ["get","/userSearch@Friend@userSearch"],
+    ["get","/profile@User@profile"],
+    ["post","/requestFriend@Friend@requestFriend"],
   ]);
 }else {
   Route::reg([
