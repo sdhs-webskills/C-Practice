@@ -2,7 +2,7 @@
 
 namespace src\core;
 
-class Board{
+class board{
 	static $db;
 
 	public function getDB() {

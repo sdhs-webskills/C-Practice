@@ -3,7 +3,7 @@
 include "../account/function.php";
 include "../core/Board.php";
 
-use src\core\Board;
+use src\core\board;
 
 $method = $_SERVER["REQUEST_METHOD"];
 
@@ -20,8 +20,8 @@ if($method == "GET") {
 }else{
 	extract($_POST);
 	if($content) {
-		$add_writer = Board::fetch("insert into writer values('$email', '$title');", []);
-		$add_text = Board::fetch("insert into content values('$email', '$title', '$content', now(), 'N');", []);
+		$add_writer = board::fetch("insert into writer values('$email', '$title');", []);
+		$add_text = board::fetch("insert into content values('$email', '$title', '$content', now(), 'N');", []);
 
 		header("Location: /webskills/src/account/profile.php");
 	};

@@ -2,7 +2,7 @@
 
 namespace src\core;
 
-class DB{
+class people{
 	static $db;
 
 	public function getDB() {

@@ -1,9 +1,9 @@
 <?php
 
 include "function.php";
-include "../core/DB.php";
+include "../core/People.php";
 
-use src\core\DB;
+use src\core\people;
 
 $method = $_SERVER["REQUEST_METHOD"];
 
@@ -32,10 +32,10 @@ if($method == "GET") {
 		$value = $_POST["value"]; // 검색 값
 
 		// 현재 로그인중인 이메일로 검색
-		$email_result = DB::fetch("select Email from person where Email='$email';", []);
+		$email_result = people::fetch("select Email from person where Email='$email';", []);
 
 		// post로 넘어온 값을 검색
-		$result = DB::fetchAll("select Email, Name, Birth, Img from person where $kind='$value';", []);
+		$result = people::fetchAll("select Email, Name, Birth, Img from person where $kind='$value';", []);
 
 		if($result == false) {
 

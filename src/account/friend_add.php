@@ -1,8 +1,8 @@
 <?php
 
-include "../core/DB.php";
+include "../core/People.php";
 
-use src\core\DB;
+use src\core\people;
 
 $method = $_SERVER["REQUEST_METHOD"];
 
@@ -14,7 +14,7 @@ else {
 		$req = $_POST["email"];
 		$res = $_SESSION["email"];
 
-		$result = DB::fetch("delete from friend_apply where Requester='$req' and Responser='$res';", []);
+		$result = people::fetch("delete from friend_apply where Requester='$req' and Responser='$res';", []);
 
 	}else {
 		print_r(json_encode(array(
