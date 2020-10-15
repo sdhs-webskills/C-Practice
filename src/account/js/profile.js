@@ -14,15 +14,22 @@ fetch("profile.php", {
 .catch(err => console.log(err));
 
 function friendBox(obj, list) {
+
 	let box = document.createElement("div");
 	let name = document.createElement("li");
 	let email = document.createElement("li");
 	let birth = document.createElement("li");
 	let hr = document.createElement("hr");
 
-	name.innerHTML = obj[4];
-	email.innerHTML = obj[1];
-	birth.innerHTML = obj[5];
+	if(obj?.Name) {
+		name.innerHTML = obj.Name;
+		email.innerHTML = obj.Email;
+		birth.innerHTML = obj.Birth;
+	}else {
+		name.innerHTML = obj[0].Name;
+		email.innerHTML = obj[0].Email;
+		birth.innerHTML = obj[0].Birth;
+	};
 
 	box.append(name, email, birth, hr);
 	list.append(box);
@@ -38,8 +45,6 @@ fetch("../content/content_list.php", {
 	else {
 		let content_list = document.querySelector("#content_list");
 		content_list.innerHTML = "";
-
-		console.log(res);
 
 		res.forEach(item => {
 			postBox(item, content_list);

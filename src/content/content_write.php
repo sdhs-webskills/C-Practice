@@ -10,6 +10,7 @@ $method = $_SERVER["REQUEST_METHOD"];
 session_start();
 
 $email = $_SESSION["email"];
+$idx = 0;
 
 if($method == "GET") {
 	if(!$email) {
@@ -20,23 +21,20 @@ if($method == "GET") {
 }else{
 	extract($_POST);
 	if($content) {
-		$add_writer = DB::fetch("insert into writer values('$email', '$title');", []);
-		$add_text = DB::fetch("insert into content values('$email', '$title', '$content', now(), 'N');", []);
-
 		$arr = explode("@", $email);
-		$idx = 1;
-		
-		Duplicate_check($arr[0], $idx);
-		
-		// echo "<script>document.location.href='/webskills/src/account/profile.php';</script>";
+		add_post($arr[0], $idx);
+
+		echo "<script>document.location.href='/webskills/src/account/profile.php';</script>";
 	};
 };
 
-function Duplicate_check($str, $idx) {
-	$id = $str."_".$idx;
-	$result = DB::fetch("select id from content where Id='$id';", []);
+function add_post($str, $index) {
+	global $email, $title, $content;
 
-	return $result;
+	$result = DB::fetchAll("select * from content where Writer='$email';", []);
+	$id = $str."_".sizeof($result);
+	DB::fetch("insert into content_writer values('$email', '$id');", []);
+	DB::fetch("insert into content values('$email', '$title', '$content', now(), 'N', '$id');", []);
 };
 
 date_default_timezone_set("Asia/Seoul");

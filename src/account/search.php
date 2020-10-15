@@ -47,20 +47,13 @@ if($method == "GET") {
 			$arr = [];
 
 			if(sizeof($result) == 1) {
-				// 이메일로 검색시
-				if($result[0][0] == $email_result[0]) {
-
-					//검색 결과가 본인이면
-					print_r(json_encode(array(
-						"message" => "can't search myself"
-					)));
-				}else array_push($arr, $result);
-			}else {
 				for($i = 0; $i < sizeof($result); $i++) {
 
 					// 검색결과가 로그인중인 이메일과 겹칠시 continue;
-					if($result[$i][0] == $email_result[0]) continue;
-					else array_push($arr, $result[$i]);
+					if($result[$i][0] == $email_result[0]) {
+						array_push($arr, [$result[$i], true]);
+					}else array_push($arr, [$result[$i], false]);
+
 				}
 				print_r(json_encode($arr));
 			};
