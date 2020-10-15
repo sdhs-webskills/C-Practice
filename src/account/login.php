@@ -1,9 +1,9 @@
 <?php
 
 include "function.php";
-include "../core/People.php";
+include "../core/DB.php";
 
-use src\core\people;
+use src\core\DB;
 
 $email = $_POST["email"];
 $password = $_POST["password"];
@@ -14,7 +14,7 @@ function login($email, $password) {
 	$id_check = false;
 	$pw_check = false;
 
-	$result = people::fetch("select * from person where Email='$email' and Password=password('$password');", []);
+	$result = DB::fetch("select * from person where Email='$email' and Password=password('$password');", []);
 
 	if($result) {
 		session_start();
@@ -24,7 +24,7 @@ function login($email, $password) {
 
 		header('Location: /webskills/main.php');
 	}else{
-		$result = people::fetch("select * from person where Email='$email';", []);
+		$result = DB::fetch("select * from person where Email='$email';", []);
 
 		session_start();
 

@@ -1,8 +1,8 @@
 <?php
 
-include "../core/People.php";
+include "../core/DB.php";
 
-use src\core\people;
+use src\core\DB;
 
 $method = $_SERVER["REQUEST_METHOD"];
 
@@ -14,15 +14,15 @@ if($method == "GET") {
 	if(isset($_GET["email"])) {
 		$user = $_GET["email"];
 
-		$info = people::fetch("select Email, Name, Birth, Img from person where Email='$user';", []);
+		$info = DB::fetch("select Email, Name, Birth, Img from person where Email='$user';", []);
 	}else if($email) {
-		$info = people::fetch("select Email, Name, Birth, Img from person where Email='$email';", []);
+		$info = DB::fetch("select Email, Name, Birth, Img from person where Email='$email';", []);
 	}else header("Location: /webskills/main.php");
 }else {
 	if(isset($_POST["email"])) {
 		$email = $_POST["email"];
 
-		$result = people::fetch("select Email, Name, Birth, Img from person where Email='$email';", []);
+		$result = DB::fetch("select Email, Name, Birth, Img from person where Email='$email';", []);
 	}else if($email) {
 		print_r(json_encode(getFriendArr($email)));
 
@@ -33,9 +33,9 @@ if($method == "GET") {
 };
 
 function getFriendArr($email) {
-	$friend_result = people::fetchAll("select Requester, Responser, Add_Time, Email, Name, Birth from friend inner join person on Requester='$email' and Email=Responser order by Add_Time asc;", []);
+	$friend_result = DB::fetchAll("select Requester, Responser, Add_Time, Email, Name, Birth from friend inner join person on Requester='$email' and Email=Responser order by Add_Time asc;", []);
 
-	// $friend_result2 = people::fetchAll("select Requester, Responser, Add_Time, Email, Name, Birth from friend inner join person on Responser='$email' and Email=Requester order by Add_Time asc;", []);
+	// $friend_result2 = DB::fetchAll("select Requester, Responser, Add_Time, Email, Name, Birth from friend inner join person on Responser='$email' and Email=Requester order by Add_Time asc;", []);
 
 	if($friend_result) return $friend_result;
 	// else if($friend_result2) return $friend_result2;
@@ -75,9 +75,9 @@ function getFriendArr($email) {
 		$requester = $_SESSION["email"];
 		$responser = $_GET["email"];
 
-		$result = people::fetch("select * from friend where Requester='$requester' and Responser='$responser';", []);
+		$result = DB::fetch("select * from friend where Requester='$requester' and Responser='$responser';", []);
 
-		$result2 = people::fetch("select * from friend where Requester='$responser' and Responser='$requester';", []);
+		$result2 = DB::fetch("select * from friend where Requester='$responser' and Responser='$requester';", []);
 
 		if($result || $result2)	echo "<button>친구 끊기</button>";
 		else echo "<button>친구 요청</button>";

@@ -1,9 +1,9 @@
 <?php
 
 include "../account/function.php";
-include "../core/Board.php";
+include "../core/DB.php";
 
-use src\core\board;
+use src\core\DB;
 
 $method = $_SERVER["REQUEST_METHOD"];
 
@@ -20,17 +20,13 @@ if($method == "GET") {
 }else{
 	extract($_POST);
 	if($content) {
-		$add_writer = board::fetch("insert into writer values('$email', '$title');", []);
-		$add_text = board::fetch("insert into content values('$email', '$title', '$content', now(), 'N');", []);
+		$add_writer = DB::fetch("insert into writer values('$email', '$title');", []);
+		$add_text = DB::fetch("insert into content values('$email', '$title', '$content', now(), 'N');", []);
 
 		$arr = explode("@", $email);
 		$idx = 1;
-		print_r($arr[0]."_".$idx);
-
-		$test = board::fetch("select * from content where Email='asdf@asdf.asdf';", []);
 		
-		if($test) print_r($test);
-		// alert("게시글이 생성되었습니다.");
+		Duplicate_check($arr[0], $idx);
 		
 		// echo "<script>document.location.href='/webskills/src/account/profile.php';</script>";
 	};
@@ -38,7 +34,9 @@ if($method == "GET") {
 
 function Duplicate_check($str, $idx) {
 	$id = $str."_".$idx;
-	$result = board::fetch("select id from content where Id='';", []);
+	$result = DB::fetch("select id from content where Id='$id';", []);
+
+	return $result;
 };
 
 date_default_timezone_set("Asia/Seoul");

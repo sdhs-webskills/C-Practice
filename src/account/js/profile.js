@@ -39,6 +39,8 @@ fetch("../content/content_list.php", {
 		let content_list = document.querySelector("#content_list");
 		content_list.innerHTML = "";
 
+		console.log(res);
+
 		res.forEach(item => {
 			postBox(item, content_list);
 		});
@@ -63,6 +65,8 @@ function postBox(obj, list) {
 
 	box.append(title, content, likes, comments);
 	list.append(box);
+
+	return false;
 };
 function textCut(text) {
 	let result = null;

@@ -1,9 +1,9 @@
 <?php
 
 include "function.php";
-include "../core/People.php";
+include "../core/DB.php";
 
-use src\core\people;
+use src\core\DB;
 
 $method = $_SERVER["REQUEST_METHOD"];
 session_start();
@@ -36,11 +36,11 @@ function register($email, $password, $name, $birthday, $img) {
 		$sql_path = "../account/image/user/";
 		$sql_img_path = $sql_path.$img_nm;
 
-		people::fetch("insert into person values('$email', password('$password'), '$name', '$birthday', '$sql_img_path', now());", []);
+		DB::fetch("insert into person values('$email', password('$password'), '$name', '$birthday', '$sql_img_path', now());", []);
 
 		move_uploaded_file($_FILES["img"]["tmp_name"], $img_path.$img_nm);
 	}else {
-		people::fetch("insert into person(Email, Password, Name, Birth, Time) values('$email', password('$password'), '$name', '$birthday', now());", []);		
+		DB::fetch("insert into person(Email, Password, Name, Birth, Time) values('$email', password('$password'), '$name', '$birthday', now());", []);		
 	};
 
 	alert("회원가입 완료되었습니다");
