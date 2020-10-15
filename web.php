@@ -12,6 +12,9 @@ if(ss()) {
     ["get","/userSearch@Friend@userSearch"],
     ["get","/profile@User@profile"],
     ["post","/requestFriend@Friend@requestFriend"],
+    ["get","/friendRequest@Friend@friendRequest"],
+    ["post","/requestAcceptance@Friend@requestAcceptance"],
+    ["post","/requestRefuse@Friend@requestRefuse"],
   ]);
 }else {
   Route::reg([

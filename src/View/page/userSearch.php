@@ -2,18 +2,23 @@
 </head>
 <body>
   <div class="header">
-    <a href="/">홈</a>
+    <ul>
+      <li><a href="/logout">로그아웃</a></li>
+      <li><a href="/">홈</a></li>
+      <li><a href="/friendRequest">친구 요청</a></li>
+    </ul>
   </div>
   <form class="searchBox" action="" method="GET">
   <?php if(empty($_GET["search"])) {?>
-    <input type="text" name="search" id="search" placeholder="이름 또는 이메일">
+    <input type="text" name="search" id="search" placeholder="이름 또는 이메일" autofocus>
   <?php }else { ?>
-    <input type="text" name="search" id="search" placeholder="이름 또는 이메일" value="<?=$_GET["search"]?>">
+    <input type="text" name="search" id="search" placeholder="이름 또는 이메일" value="<?=$_GET["search"]?>" autofocus>
   <?php } ?>
     <input type="submit" value="검색">
   </form>
   <div class="searchList">
       <?php
+      if(isset($searchedUser)) {
         foreach($searchedUser as $user) {
           $data = $user;
           $idx = $user->idx;
@@ -50,6 +55,7 @@
           <?php if(count($searchedUser) === 0) { ?>
           <p>존재하지 않는 유저입니다.</p>
           <?php } ?>
+        <?php } ?>
   </div>
 
 
