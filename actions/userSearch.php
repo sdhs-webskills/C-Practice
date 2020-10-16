@@ -10,4 +10,5 @@ switch($_POST['search']){
         ] = $_POST;
 
         $user = fetchAll("INSERT INTO users(`id`, `name`) VALUES(?,?)",  [$searchbox]);
+        
 }

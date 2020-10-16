@@ -7,4 +7,6 @@
     </div>
     <button type="submit" class="searchbtn">검색</button>
 </form>
+    <div class="result"></div>
+<script src="/js/profile.js"></script>
 <script src="/js/usersearch.js"></script>
