@@ -83,6 +83,7 @@ function getFriendArr($email) {
 		if($result || $result2)	echo "<button>친구 끊기</button>";
 		else echo "<button>친구 요청</button>";
 	};
+	
 	?>
 	<hr>
 	<li>게시글</li>

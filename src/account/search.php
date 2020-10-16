@@ -44,19 +44,15 @@ if($method == "GET") {
 				"message" => "fail to search user"
 			)));
 		}else {
+			global $result;
 			$arr = [];
 
-			if(sizeof($result) == 1) {
-				for($i = 0; $i < sizeof($result); $i++) {
-
-					// 검색결과가 로그인중인 이메일과 겹칠시 continue;
-					if($result[$i][0] == $email_result[0]) {
-						array_push($arr, [$result[$i], true]);
-					}else array_push($arr, [$result[$i], false]);
-
-				}
-				print_r(json_encode($arr));
-			};
+			for($i = 0; $i < sizeof($result); $i++) {
+				if($result[$i][0] == $email_result[0]) {
+					array_push($arr, [$result[$i], true]);
+				}else array_push($arr, [$result[$i], false]);
+			}
+			print_r(json_encode($arr));
 		};
 
 	// 검색 종류가 넘어오지 않을경우
