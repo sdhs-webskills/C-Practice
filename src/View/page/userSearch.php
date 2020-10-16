@@ -21,7 +21,6 @@
       <?php
       if(isset($searchedUser)) {
         foreach($searchedUser as $user) {
-          $data = $user;
           $idx = $user->idx;
           $email = $user->email;
           $name = $user->name;

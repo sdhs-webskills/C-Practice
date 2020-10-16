@@ -70,7 +70,17 @@ class User
 
   public function profile() {
     $user = DB::fetch("SELECT * FROM users WHERE email = ?", [$_GET["email"]]);
-    view("profile",[ 'profile' => $user ]);
+    if($user->idx == $_SESSION["user"]->idx) {
+      $friend = DB::fetchAll("SELECT * FROM friend WHERE user = ?", [$user->idx]);
+      $friends = array();
+      foreach($friend as $list) {
+        $idx = $list->friend;
+        array_push($friends, DB::fetch("SELECT * FROM `users` WHERE `idx` = ?",[$idx]));
+      }
+      view("profile",["user" => $user, "friends" => $friends]);
+      return;
+    }
+    view("profile",["user" => $user]);
   }
 
 }
