@@ -6,6 +6,7 @@
       <li><a href="/logout">로그아웃</a></li>
       <li><a href="/">홈</a></li>
       <li><a href="/friendRequest">친구 요청</a></li>
+      <li><a href="/profile?email=<?=$_SESSION["user"]->email?>">프로필</a></li>
     </ul>
   </div>
   <form class="searchBox" action="" method="GET">

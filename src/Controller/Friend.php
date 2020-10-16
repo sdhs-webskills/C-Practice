@@ -61,10 +61,12 @@ class Friend
     DB::query("DELETE FROM friend_request WHERE `from` = ? AND `to` = ?", [$_POST["key"], $userIdx]);
     DB::query("INSERT INTO `friend`(`user`, `friend`) VALUES (?, ?)", [$userIdx, $_POST["key"]]);
     DB::query("INSERT INTO `friend`(`user`, `friend`) VALUES (?, ?)", [$_POST["key"], $userIdx]);
-    // back("친구요청을 수락하였습니다.");
+    back("친구요청을 수락하였습니다.");
   }
 
   public function requestRefuse() {
+    $userIdx = $_SESSION["user"]->idx;
+    DB::query("DELETE FROM friend_request WHERE `from` = ? AND `to` = ?", [$_POST["key"], $userIdx]);
     back("친구요청을 거절하였습니다.");
   }
 }
