@@ -49,8 +49,8 @@ if($method == "GET") {
 
 			for($i = 0; $i < sizeof($result); $i++) {
 				if($result[$i][0] == $email_result[0]) {
-					array_push($arr, [$result[$i], true]);
-				}else array_push($arr, [$result[$i], false]);
+					array_push($arr, [[$result[$i], true]]);
+				}else array_push($arr, [[$result[$i], false]]);
 			}
 			print_r(json_encode($arr));
 		};

@@ -53,6 +53,9 @@ function getFriendArr($email) {
 	<?php if(!isset($_GET["email"])): ?>
 		<script src="js/profile.js"></script>
 	<?php endif;?>
+	<?php if(isset($_GET["email"]) && $_GET["email"] == $email): ?>
+		<script src="js/profile.js"></script>
+	<?php endif;?>
 </head>
 <body>
 	<div id="info">
@@ -61,17 +64,27 @@ function getFriendArr($email) {
 		<li id="name"><?= $info[1] ?></li>
 		<li id="birth"><?= $info[2] ?></li>
 	</div>
+	<button><a href="../../main.php">메인</a></button>
 	<hr>
-	<?php if(!isset($_GET["email"])): ?>
-		<li>친구</li>
-		<hr>
-		<div id="friend-list">
+	<?php if($email): ?>
+		<?php if(!isset($_GET["email"])): ?>
+			<li>친구</li>
+			<hr>
+			<div id="friend-list">
 
-		</div>
+			</div>
+		<?php endif;?>
+		<?php if(isset($_GET["email"]) && $_GET["email"] == $email): ?>
+			<li>친구</li>
+			<hr>
+			<div id="friend-list">
+
+			</div>
+		<?php endif;?>
 	<?php endif;?>
 	<?php
 
-	if(isset($_GET["email"])) {
+	if(isset($_GET["email"]) && !$email) {
 
 		$requester = $_SESSION["email"];
 		$responser = $_GET["email"];
@@ -86,13 +99,25 @@ function getFriendArr($email) {
 	
 	?>
 	<hr>
-	<li>게시글</li>
-	<hr>
-	<div id="content">
-		<button><a href="/webskills/src/content/content_write.php">게시글 등록</a></button>
-		<div id="content_list">
-			
+	<?php if(!isset($_GET["email"])): ?>
+		<li>게시글</li>
+		<hr>
+		<div id="content">
+			<button><a href="/webskills/src/content/content_write.php">게시글 등록</a></button>
+			<div id="content_list">
+
+			</div>
 		</div>
-	</div>
+	<?php endif;?>
+	<?php if(isset($_GET["email"]) && $_GET["email"] == $email): ?>
+		<li>게시글</li>
+		<hr>
+		<div id="content">
+			<button><a href="/webskills/src/content/content_write.php">게시글 등록</a></button>
+			<div id="content_list">
+
+			</div>
+		</div>
+	<?php endif;?>
 </body>
 </html>

@@ -50,11 +50,13 @@ window.onload = () => {
 			if(res?.message) result.innerHTML = msg_change(res.message);
 			else {
 				result.innerHTML = "";
-				if([...res].length > 0) {
+				if(res.length > 0) {
 					[...res].forEach(item => {
-						friendApply_check(item[0])
-						.then(res => {
-							search_result(item, res);
+						item.forEach(value => {
+							friendApply_check(value[0][0])
+							.then(res => {
+								search_result(value, res);
+							});
 						});
 					});
 				};
@@ -70,22 +72,27 @@ window.onload = () => {
 		let birth = document.createElement("li");
 		let btn = document.createElement("button");
 
-		img.setAttribute("src", arr[3]);
-		email.innerHTML = `<a href="profile.php?email=${arr[0]}">${arr[0]}</a>`;
-		name.innerHTML = `<a href="profile.php?email=${arr[0]}">${arr[1]}</a>`;
-		birth.innerHTML = arr[2];
+		img.setAttribute("src", arr[0][3]);
+		email.innerHTML = `<a href="profile.php?email=${arr[0][0]}">${arr[0][0]}</a>`;
+		name.innerHTML = `<a href="profile.php?email=${arr[0][0]}">${arr[0][1]}</a>`;
+		birth.innerHTML = arr[0][2];
 
-		if(friend_check(arr[0])?.message) {
-			console.log(friend_check(arr[0]).message);
-		}else if(friend_check(arr[0])) btn.innerHTML = "친구끊기";
-		else btn.innerHTML = "친구요청";
+		if(!arr[1]) {
+			if(friend_check(arr[0][0])?.message) {
+				console.log(friend_check(arr[0][0]).message);
+			}else if(friend_check(arr[0][0])) btn.innerHTML = "친구끊기";
+			else btn.innerHTML = "친구요청";
+		};
 
 		btn.addEventListener("click", function(e) {
 			if(this.innerHTML == "친구요청")
 				friend_apply(this.parentNode.children[1].innerHTML);
 		});
 
-		box.append(img, email, name, birth, btn);
+		box.append(img, email, name, birth);
+
+		if(btn.innerHTML != "") box.append(btn);
+
 		result.append(box);
 	};
 	function friend_apply(email) {

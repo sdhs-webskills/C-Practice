@@ -14,12 +14,12 @@ fetch("profile.php", {
 .catch(err => console.log(err));
 
 function friendBox(obj, list) {
-
 	let box = document.createElement("div");
 	let name = document.createElement("li");
 	let email = document.createElement("li");
 	let birth = document.createElement("li");
 	let hr = document.createElement("hr");
+	let btn = document.createElement("button");
 
 	if(obj?.Name) {
 		name.innerHTML = obj.Name;
@@ -31,7 +31,13 @@ function friendBox(obj, list) {
 		birth.innerHTML = obj[0].Birth;
 	};
 
-	box.append(name, email, birth, hr);
+	btn.innerHTML = "친구 끊기";
+
+	btn.addEventListener("click", function() {
+		delete_friend(this.parentNode.children[1].innerHTML);
+	});
+
+	box.append(name, email, birth, btn, hr);
 	list.append(box);
 };
 
@@ -63,8 +69,8 @@ function postBox(obj, list) {
 
 	box.classList.add("post-box");
 
-	title.innerHTML = "제목 : " + obj.Title;
-	content.innerHTML = "내용 : " +textCut(obj.Text);
+	title.innerHTML = `제목 : <a href='/webskills/src/content/content_list.php?title=${obj.Title}'>${obj.Title}</a>`;
+	content.innerHTML = "내용 : " + textCut(obj.Text);
 	likes.innerHTML = "좋아요 : 0";
 	comments.innerHTML = "댓글 : 0";
 
@@ -83,4 +89,8 @@ function textCut(text) {
 
 
 	return result;
+};
+
+function delete_friend(target) {
+	console.log(target);
 };
