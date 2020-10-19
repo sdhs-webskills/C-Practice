@@ -7,11 +7,8 @@ window.onload = () => {
 			let val = search_input.value;
 			let sql = "";
 
-			if(form_check(val) == "email") {
-				search("Email", val);
-			}else if(form_check(val) == "name") {
-				search("Name", val);
-			};
+			if(form_check(val) == "email") search("Email", val);
+			else if(form_check(val) == "name") search("Name", val);
 		};
 	});
 
@@ -66,12 +63,14 @@ window.onload = () => {
 	};
 	function search_result(arr, bool) {
 		let box = document.createElement("div");
+		let a = document.createElement("a");
 		let img = document.createElement("img");
 		let email = document.createElement("li");
 		let name = document.createElement("li");
 		let birth = document.createElement("li");
 		let btn = document.createElement("button");
 
+		a.setAttribute("href", `profile.php?email=${arr[0][0]}`);
 		img.setAttribute("src", arr[0][3]);
 		email.innerHTML = `<a href="profile.php?email=${arr[0][0]}">${arr[0][0]}</a>`;
 		name.innerHTML = `<a href="profile.php?email=${arr[0][0]}">${arr[0][1]}</a>`;
@@ -89,7 +88,8 @@ window.onload = () => {
 				friend_apply(this.parentNode.children[1].innerHTML);
 		});
 
-		box.append(img, email, name, birth);
+		a.append(img);
+		box.append(a, email, name, birth);
 
 		if(btn.innerHTML != "") box.append(btn);
 

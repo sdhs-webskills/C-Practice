@@ -50,74 +50,62 @@ function getFriendArr($email) {
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="css/profile.css">
-	<?php if(!isset($_GET["email"])): ?>
-		<script src="js/profile.js"></script>
-	<?php endif;?>
-	<?php if(isset($_GET["email"]) && $_GET["email"] == $email): ?>
-		<script src="js/profile.js"></script>
-	<?php endif;?>
+	<?php if(!isset($_GET["email"]) || isset($_GET["email"]) && $_GET["email"] == $email): ?>
+	<script src="js/profile.js"></script>
+<?php endif;?>
 </head>
 <body>
-	<div id="info">
-		<img src="<?= $info[3] ?>" alt="">
-		<li id="email"><?= $info[0] ?></li>
-		<li id="name"><?= $info[1] ?></li>
-		<li id="birth"><?= $info[2] ?></li>
-	</div>
-	<button><a href="../../main.php">메인</a></button>
-	<hr>
-	<?php if($email): ?>
-		<?php if(!isset($_GET["email"])): ?>
-			<li>친구</li>
-			<hr>
-			<div id="friend-list">
-
+	<div id="wrap">
+		<div id="profile">
+			<img src="<?= $info[3] ?>" alt="" id="profile_img">
+			<div id="info">
+				<li id="email">이메일 : <?= $info[0] ?></li>
+				<li id="name">이름 : <?= $info[1] ?></li>
+				<li id="birth">생일 : <?= $info[2] ?></li>
 			</div>
-		<?php endif;?>
-		<?php if(isset($_GET["email"]) && $_GET["email"] == $email): ?>
-			<li>친구</li>
-			<hr>
-			<div id="friend-list">
-
+			<div id="info2">
+				
 			</div>
+		</div>
+		<div id="content">
+			<?php if($email): ?>
+				<?php if(!isset($_GET["email"]) || isset($_GET["email"]) && $_GET["email"] == $email): ?>
+				<li>친구</li>
+				<hr>
+				<div id="friend-list">
+
+				</div>
+			<?php endif;?>
 		<?php endif;?>
-	<?php endif;?>
-	<?php
+		<?php
 
-	if(isset($_GET["email"]) && !$email) {
+		if(isset($_GET["email"]) && !$email) {
 
-		$requester = $_SESSION["email"];
-		$responser = $_GET["email"];
+			$requester = $_SESSION["email"];
+			$responser = $_GET["email"];
 
-		$result = DB::fetch("select * from friend where Requester='$requester' and Responser='$responser';", []);
+			$result = DB::fetch("select * from friend where Requester='$requester' and Responser='$responser';", []);
 
-		$result2 = DB::fetch("select * from friend where Requester='$responser' and Responser='$requester';", []);
+			$result2 = DB::fetch("select * from friend where Requester='$responser' and Responser='$requester';", []);
 
-		if($result || $result2)	echo "<button>친구 끊기</button>";
-		else echo "<button>친구 요청</button>";
-	};
-	
-	?>
-	<hr>
-	<?php if(!isset($_GET["email"])): ?>
+			if($result || $result2)	echo "<button>친구 끊기</button>";
+			else echo "<button>친구 요청</button>";
+		};
+
+		?>
+		<hr>
+		<?php if(!isset($_GET["email"]) || isset($_GET["email"]) && $_GET["email"] == $email): ?>
 		<li>게시글</li>
 		<hr>
-		<div id="content">
+		<div id="post">
 			<button><a href="/webskills/src/content/content_write.php">게시글 등록</a></button>
-			<div id="content_list">
+			<div id="post-list">
 
 			</div>
 		</div>
 	<?php endif;?>
-	<?php if(isset($_GET["email"]) && $_GET["email"] == $email): ?>
-		<li>게시글</li>
-		<hr>
-		<div id="content">
-			<button><a href="/webskills/src/content/content_write.php">게시글 등록</a></button>
-			<div id="content_list">
-
-			</div>
-		</div>
-	<?php endif;?>
+</div>
+<button><a href="../../main.php">메인</a></button>
+</div>
 </body>
 </html>

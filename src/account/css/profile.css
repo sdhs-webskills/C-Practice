@@ -1,12 +1,58 @@
 *{ margin: 0; padding: 0; }
 li{ list-style: none; }
+a{ color: black; text-decoration: none; }
 
-.post-box{
-	width: 450px;
-	height: 100px;
+html, body{ width: 100%; height: 100%; user-select: none; }
+
+#wrap{
+	width: 90%;
+	height: 100%;
+	position: absolute;
+	left: 5%;
+}
+
+#profile{
+	width: 100%;
+	height: 18%;
 	display: flex;
+	margin-bottom: 30px;
+}
+#profile_img{ width: 150px; height: 150px; }
+#info{ line-height: 300%; margin-left: 5px; }
+
+#content{
+	width: 90%;
+	height: auto;
+	position: absolute;
+	left: 5%;
+	border: 1px solid black;
+}
+
+#friend-list{
+	width: 100%;
+	height: 20%;
+	display: flex;
+	margin-bottom: 20px;
+}
+#friend-list > div{
+	width: 150px;
+	height: 100px;
+	margin: 5px;
+	box-sizing: border-box;
+	background: #F2F2F2;
+}
+#friend-list > div > li:nth-of-type(1) { margin-top: 3px; }
+#friend-list > div > li:nth-of-type(3) { margin-bottom: 10px; }
+
+#post{
+	width: 100%;
+}
+.post-box{
+	width: 100%;
+	height: auto;
+	display: flex;
+	flex-direction: column;
 	border: 1px solid black;
 	box-sizing: border-box;
-	text-align: center;
 }
 .post-box > li{ margin: 10px; }

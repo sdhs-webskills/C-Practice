@@ -18,7 +18,6 @@ function friendBox(obj, list) {
 	let name = document.createElement("li");
 	let email = document.createElement("li");
 	let birth = document.createElement("li");
-	let hr = document.createElement("hr");
 	let btn = document.createElement("button");
 
 	if(obj?.Name) {
@@ -37,7 +36,7 @@ function friendBox(obj, list) {
 		delete_friend(this.parentNode.children[1].innerHTML);
 	});
 
-	box.append(name, email, birth, btn, hr);
+	box.append(name, email, birth, btn);
 	list.append(box);
 };
 
@@ -49,7 +48,7 @@ fetch("../content/content_list.php", {
 .then(res => {
 	if(res?.message) console.log(res.message);
 	else {
-		let content_list = document.querySelector("#content_list");
+		let content_list = document.querySelector("#post-list");
 		content_list.innerHTML = "";
 
 		res.forEach(item => {
@@ -87,10 +86,17 @@ function textCut(text) {
 		result += "...";
 	}else result = text;
 
-
 	return result;
 };
 
 function delete_friend(target) {
 	console.log(target);
+	let form = new FormData();
+	form.append("email", target);
+	
+	fetch("/webskills/src/account/friend_delete.php", {
+		method: post,
+		body: form
+	})
+	.catch(err => console.log(err));
 };
