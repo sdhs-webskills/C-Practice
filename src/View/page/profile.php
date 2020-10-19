@@ -24,20 +24,37 @@
   </div>
 <?php 
 if(isset($friends)) { 
-print_r($friends);
 ?>
 <div class="friend">
-  <?php 
+  <h2>친구 리스트</h2>
+  <input type="checkbox" name="friendHide" id="friendHide">
+  <?php
+  $int = 0;
   foreach($friends as $friend) { 
     $Fidx = $friend->idx;
     $Femail = $friend->email;
     $Fname = $friend->name;
     $Fimage = $friend->image;
+
+    if($int == 6) {
+  ?>
+  <label for="friendHide" class="hideLabbel">더보기</label>
+  <?php
+    }
+
+
+    if($int >= 6) {
+  ?>
+  <div class="list hide">
+  <?php
+    }else {
   ?>
   <div class="list">
+  <?php } ?>
       <a href="/profile?email=<?=$Femail?>"><img src="./public/images/user_profile/<?=$Fimage?>" alt="<?=$Fname?>"></a>
       <div class="data">
       <a href="/profile?email=<?=$Femail?>"><p><?=$Fname?></p></a>
+      <a href="/profile?email=<?=$Femail?>"><p><?=$Femail?></p></a>
       </div>
       <form action="/requestFriend" method="POST">
         <input type="text" name="key" id="key" class="none" value="<?=$Fidx?>" readonly>
@@ -45,6 +62,12 @@ print_r($friends);
         <input type="submit" value="친구끊기" class="friend__button" readonly>
       </form>
     </div>
-  <?php } ?>
-</div>
+  <?php 
+    $int++;
+  }
+  ?>
+  </div>
+  <div class="notice">
+    <h2>게시글</h2>
+  </div>
 <?php } ?>

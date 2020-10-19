@@ -71,7 +71,7 @@ class User
   public function profile() {
     $user = DB::fetch("SELECT * FROM users WHERE email = ?", [$_GET["email"]]);
     if($user->idx == $_SESSION["user"]->idx) {
-      $friend = DB::fetchAll("SELECT * FROM friend WHERE user = ?", [$user->idx]);
+      $friend = DB::fetchAll("SELECT * FROM friend WHERE user = ? ORDER BY created_at ASC", [$user->idx]);
       $friends = array();
       foreach($friend as $list) {
         $idx = $list->friend;
