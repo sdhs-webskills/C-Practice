@@ -1,17 +1,22 @@
-fetch("profile.php", {
-	mode: "cors",
-	method: "post",
-})
-.then(req => {return req.json()})
-.then(res => {
-	let friend_list = document.querySelector("#friend-list");
-	friend_list.innerHTML = "";
+const friend_loading = (function() {
+	fetch("profile.php", {
+		mode: "cors",
+		method: "post",
+	})
+	.then(res => {return res.json()})
+	.then(data => {
+		let friend_list = document.querySelector("#friend-list");
+		friend_list.innerHTML = "";
 
-	res.forEach(item => {
-		friendBox(item, friend_list);
-	});
-})
-.catch(err => console.log(err));
+		if(data.message) console.log(data.message);
+		else {
+			data.forEach(item => {
+				friendBox(item, friend_list);
+			});
+		};
+	})
+	.catch(err => console.log(err));
+})();
 
 function friendBox(obj, list) {
 	let box = document.createElement("div");
@@ -34,29 +39,29 @@ function friendBox(obj, list) {
 
 	btn.addEventListener("click", function() {
 		delete_friend(this.parentNode.children[1].innerHTML);
+		friend_loading();
 	});
 
 	box.append(name, email, birth, btn);
 	list.append(box);
 };
 
-fetch("../content/content_list.php", {
-	mode: "cors",
-	method: "get"
-})
-.then(req => {return req.json()})
-.then(res => {
-	if(res?.message) console.log(res.message);
-	else {
-		let content_list = document.querySelector("#post-list");
-		content_list.innerHTML = "";
+const content_list_loading = (function() {
+	fetch("../content/content_list.php")
+	.then(res => {return res.json()})
+	.then(data => {
+		if(data?.message) console.log(data.message);
+		else {
+			let content_list = document.querySelector("#post-list");
+			content_list.innerHTML = "";
 
-		res.forEach(item => {
-			postBox(item, content_list);
-		});
-	};
-})
-.catch(err => console.log(err));
+			data?.forEach(item => {
+				postBox(item, content_list);
+			});
+		};
+	})
+	.catch(err => console.log(err));
+})();
 
 function postBox(obj, list) {
 	let box = document.createElement("div");
@@ -95,8 +100,12 @@ function delete_friend(target) {
 	form.append("email", target);
 	
 	fetch("/webskills/src/account/friend_delete.php", {
-		method: post,
+		method: "post",
 		body: form
+	})
+	.then(res => {return res.json()})
+	.then(data => {
+		console.log(data);
 	})
 	.catch(err => console.log(err));
 };

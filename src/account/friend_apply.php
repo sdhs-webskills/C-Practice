@@ -35,16 +35,7 @@ if($method == "GET") {
 
 		$result = DB::fetch("select Responser from friend_apply where Requester='$requester';", []);
 
-		for($i = 0; $i < sizeof($result); $i++) {
-			global $check;
-
-			// 요청자와 응답자를 비교하여 이미 보낸적이 있으면
-			// 반복문을 중단시킴
-			if($result[0] == $responser) {
-				$check = true;
-				break;
-			}else continue;
-		};
+		if($result[0] == $responser) $check = true;
 
 		// 친구 요청을 보낸적이 없으면
 		if($check == false) {
@@ -52,16 +43,15 @@ if($method == "GET") {
 			$friend_check = false; // 친구인지 아닌지 체크
 
 			// 친구 요청 쿼리를 보냄
-			$result = DB::fetch("insert into friend_apply values('$requester', '$responser', now());", []);
+			DB::fetch("insert into friend_apply values('$requester', '$responser', now());", []);
 
 			// 결과를 프론트단으로 쏴줌
 			echo(json_encode(array(
-				"message" => $result
+				"message" => true
 			)));
-
 		}else{ // 친구 요청을 보낸적이 있으면
-			echo(json_encode(array(
-				"message" => "false"
+			print_r(json_encode(array(
+				"message" => false
 			)));
 		};
 		

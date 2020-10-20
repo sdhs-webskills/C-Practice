@@ -13,6 +13,9 @@ $email = $_SESSION["email"];
 if($method == "GET") header("Location: /webskills/main.php");
 else {
 	$target = $_POST["email"];
+
+	DB::fetch("delete from friend where Requester='$email' and Responser='$target'", []);
+	DB::fetch("delete from friend where Requester='$target' and Responser='$email'", []);
 };
 
 ?>

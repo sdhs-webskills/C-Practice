@@ -1,21 +1,15 @@
-let url = "friend_apply.php";
-
-fetch(url, {
-	mode: "cors",
-	method: "get",
-	headers: {
-		"Access-Control-Allow-Origin" : "*"
-	}
-})
-.then(req => {return req.json()})
-.then(res => {
-	let wrap = document.querySelector("#wrap");
-	wrap.innerHTML = "";
-	res.forEach(item => {
-		make_box(item);
-	});
-})
-.catch(err => console.log(err));
+const apply_loading = (function() {
+	fetch("friend_apply.php")
+	.then(req => {return req.json()})
+	.then(res => {
+		let wrap = document.querySelector("#wrap");
+		wrap.innerHTML = "";
+		res.forEach(item => {
+			make_box(item);
+		});
+	})
+	.catch(err => console.log(err));
+})();
 
 function make_box(obj) {
 	let box = document.createElement("div");
@@ -47,12 +41,10 @@ function add_friend() {
 	form.append("email", req.split(":")[1].trim());
 
 	fetch(url, {
-		mode: "cors",
 		method: "post",
-		headers: {
-			"Access-Control-Allow-Origin" : "*"
-		},
 		body: form
 	})
 	.catch(err => console.log(err));
+
+	apply_loading();
 };

@@ -40,7 +40,7 @@ function getFriendArr($email) {
 	if($friend_result && $friend_result2) return [$friend_result, $friend_result2];
 	else if($friend_result) return $friend_result;
 	else if($friend_result2) return $friend_result2;
-	else return "not friend";
+	else return array("message" => "don't have friend");
 };
 
 ?>

@@ -42,17 +42,17 @@ window.onload = () => {
 			},
 			body: form
 		})
-		.then(req => {return req.json()})
-		.then(res => {
-			if(res?.message) result.innerHTML = msg_change(res.message);
+		.then(res => {return res.json()})
+		.then(data => {
+			if(data?.message) result.innerHTML = msg_change(data.message);
 			else {
 				result.innerHTML = "";
-				if(res.length > 0) {
-					[...res].forEach(item => {
+				if(data.length > 0) {
+					[...data].forEach(item => {
 						item.forEach(value => {
 							friendApply_check(value[0][0])
-							.then(res => {
-								search_result(value, res);
+							.then(data => {
+								search_result(value, data);
 							});
 						});
 					});
@@ -61,7 +61,7 @@ window.onload = () => {
 		})
 		.catch(err => console.log(err));
 	};
-	function search_result(arr, bool) {
+	async function search_result(arr, bool) {
 		let box = document.createElement("div");
 		let a = document.createElement("a");
 		let img = document.createElement("img");
@@ -77,15 +77,15 @@ window.onload = () => {
 		birth.innerHTML = arr[0][2];
 
 		if(!arr[1]) {
-			if(friend_check(arr[0][0])?.message) {
-				console.log(friend_check(arr[0][0]).message);
-			}else if(friend_check(arr[0][0])) btn.innerHTML = "친구끊기";
+			if(await friend_check(arr[0][0])) btn.innerHTML = "친구끊기";
 			else btn.innerHTML = "친구요청";
 		};
 
 		btn.addEventListener("click", function(e) {
 			if(this.innerHTML == "친구요청")
-				friend_apply(this.parentNode.children[1].innerHTML);
+				friend_apply(arr[0][0]);
+			else if(this.innerHTML == "친구끊기")
+				friend_delete(arr[0][0]);
 		});
 
 		a.append(img);
@@ -96,22 +96,17 @@ window.onload = () => {
 		result.append(box);
 	};
 	function friend_apply(email) {
+		console.log(email);
 		let url = "friend_apply.php";
 		let form = new FormData();
 		form.append("email", email);
 
 		fetch(url, {
-			mode: "cors",
 			method: "post",
-			headers: {
-				"Access-Control-Allow-Origin" : "*"
-			},
 			body: form
 		})
-		.then(req => {return req.json()})
-		.then(res => {
-			console.log(res);
-		})
+		.then(res => {return res.json()})
+		.then(res => res)
 		.catch(err => console.log(err));
 	};
 	function friendApply_check(email) {
@@ -127,7 +122,7 @@ window.onload = () => {
 			},
 			body: form
 		})
-		.then(req => {return req.json()})
+		.then(res => {return res.json()})
 		// .then(res => {return res})
 		.catch(err => console.log(err));
 	};
@@ -137,12 +132,22 @@ window.onload = () => {
 		form.append("email", email);
 
 		return fetch(url, {
-			mode: "cors",
 			method: "post",
 			body: form
 		})
-		.then(req => {return req.json()})
-		.then(res => {return res;})
+		.then(res => {return res.json()})
+		.catch(err => console.log(err));
+	};
+	function delete_friend(target) {
+		let form = new FormData();
+		form.append("email", target);
+
+		fetch("/webskills/src/account/friend_delete.php", {
+			method: "post",
+			body: form
+		})
+		.then(res => {return res.json()})
+		.then(data => {console.log(data);})
 		.catch(err => console.log(err));
 	};
 

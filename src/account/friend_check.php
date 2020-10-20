@@ -17,13 +17,8 @@ else {
 
 		$result2 = DB::fetch("select * from friend where Requester='$responser' and Responser='$requester';", []);
 
-		if($result) print_r(json_encode($result));
-		else if($result2) print_r(json_encode($result2));
-		else {
-			print_r(json_encode(array(
-				"message" => "nothing to search"
-			)));
-		};
+		if($result || $result2) print_r(json_encode(true));
+		else print_r(json_encode(false));
 	}else header("Location: /webskills/main.php");
 };
 
