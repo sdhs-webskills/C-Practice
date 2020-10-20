@@ -69,7 +69,11 @@ class User
   }
 
   public function profile() {
+    $email = $_SESSION["user"]->email;
+    if(empty($_GET["email"])) return move("/profile?email=$email");
     $user = DB::fetch("SELECT * FROM users WHERE email = ?", [$_GET["email"]]);
+    if(!$user) return back("검색하신 이메일은 존재하지 않습니다.");
+    $notice = DB::fetchAll("SELECT * FROM notice WHERE user = ?",[$user->idx]);
     if($user->idx == $_SESSION["user"]->idx) {
       $friend = DB::fetchAll("SELECT * FROM friend WHERE user = ? ORDER BY created_at ASC", [$user->idx]);
       $friends = array();
@@ -77,7 +81,7 @@ class User
         $idx = $list->friend;
         array_push($friends, DB::fetch("SELECT * FROM `users` WHERE `idx` = ?",[$idx]));
       }
-      view("profile",["user" => $user, "friends" => $friends]);
+      view("profile",["user" => $user, "friends" => $friends, "notice" => $notice]);
       return;
     }
     view("profile",["user" => $user]);
