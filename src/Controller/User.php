@@ -41,7 +41,8 @@ class User
       return back("이미지 파일만 업로드 가능합니다.");
     }
 
-    $imageType = end(explode(".", $_FILES["profile"]["name"]));
+    $imageType = explode(".", $_FILES["profile"]["name"]);
+    $imageType = end($imageType);
 
     if ($imageType !== "jpg" && $imageType !== "png" && $imageType !== "gif") {
       // return print_r($imageType);
@@ -73,7 +74,7 @@ class User
     if(empty($_GET["email"])) return move("/profile?email=$email");
     $user = DB::fetch("SELECT * FROM users WHERE email = ?", [$_GET["email"]]);
     if(!$user) return back("검색하신 이메일은 존재하지 않습니다.");
-    $notice = DB::fetchAll("SELECT * FROM notice WHERE user = ?",[$user->idx]);
+    $bulletin = DB::fetchAll("SELECT * FROM bulletin WHERE user = ?",[$user->idx]);
     if($user->idx == $_SESSION["user"]->idx) {
       $friend = DB::fetchAll("SELECT * FROM friend WHERE user = ? ORDER BY created_at ASC", [$user->idx]);
       $friends = array();
@@ -81,10 +82,11 @@ class User
         $idx = $list->friend;
         array_push($friends, DB::fetch("SELECT * FROM `users` WHERE `idx` = ?",[$idx]));
       }
-      view("profile",["user" => $user, "friends" => $friends, "notice" => $notice]);
+      view("profile",["user" => $user, "friends" => $friends, "bulletin" => $bulletin]);
       return;
     }
-    view("profile",["user" => $user]);
+    $friendWhether = DB::fetch("SELECT * FROM friend WHERE user = ? AND friend = ?",[$user->idx, $_SESSION["user"]->idx]);
+    view("profile",["user" => $user, "friendWhether" => $friendWhether, "bulletin" => $bulletin]);
   }
 
 }

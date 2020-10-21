@@ -15,6 +15,8 @@ if(ss()) {
     ["get","/friendRequest@Friend@friendRequest"],
     ["post","/requestAcceptance@Friend@requestAcceptance"],
     ["post","/requestRefuse@Friend@requestRefuse"],
+    ["get","/addBulletin@Bulletin@addBulletin"],
+    ["post","/sendBulletin@Bulletin@sendBulletin"],
   ]);
 }else {
   Route::reg([
