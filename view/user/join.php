@@ -38,7 +38,7 @@
                     <div class="row">
                         <label for="captcha" class="col-sm-2col-form-label">Captcha</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="captcha" id="maincaptcha" disabled="">
+                            <input type="text" class="form-control" name="captcha" id="maincaptcha" oncontextmenu="return false" ondragstart="return false" readonly>
                             <div id="log"></div>
                             <input type="text" class="form-control" id="captcha"
                             placeholder="자동입력방지문자를 입력해주세요">

@@ -12,3 +12,9 @@ const getCaptchaString = () => Array(6)
 
 document.querySelector('#maincaptcha').value = getCaptchaString();
 
+if(document.getElementById("maincaptcha").length < 7){
+    document.getElementById("maincaptcha").empty();
+}
+// document.oncontextmenu = function() {return false};
+// document.ondragstart = function() {return false};
+// document.onselectstart = function() {return false};
