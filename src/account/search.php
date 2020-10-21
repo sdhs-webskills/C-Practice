@@ -35,7 +35,7 @@ if($method == "GET") {
 		$email_result = DB::fetch("select Email from person where Email='$email';", []);
 
 		// post로 넘어온 값을 검색
-		$result = DB::fetchAll("select Email, Name, Birth, Img from person where $kind='$value';", []);
+		$result = DB::fetchAll("select Email, Name, Birth, ifnull(Img, '../account/image/user/basic_img.jpg') from person where $kind='$value';", []);
 
 		if($result == false) {
 

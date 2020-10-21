@@ -1,19 +1,32 @@
-const friend_loading = (function() {
-	fetch("profile.php", {
-		mode: "cors",
+(friend_loading = function() {
+	return fetch("profile.php", {
 		method: "post",
 	})
 	.then(res => {return res.json()})
 	.then(data => {
-		let friend_list = document.querySelector("#friend-list");
-		friend_list.innerHTML = "";
+		document.querySelector("#friend_count").innerHTML = "친구수 : " + data.aSize() + "명";
 
-		if(data.message) console.log(data.message);
-		else {
-			data.forEach(item => {
-				friendBox(item, friend_list);
-			});
+		let friend_list = document.querySelector("#list-box");
+		if(friend_list) {
+			friend_list.innerHTML = "";
+
+			if(data.message) console.log(data.message);
+			else {
+				data.forEach((item, d_idx) => {
+					if(d_idx > 6) return false;
+					else {
+						if(item.length > 0) {
+							item.forEach((value, i_idx) => {
+								if(i_idx < 4)
+									friendBox(value, friend_list);
+							});
+						}else friendBox(item, friend_list);
+					};
+				});
+			};
 		};
+
+		return data;
 	})
 	.catch(err => console.log(err));
 })();
@@ -24,6 +37,8 @@ function friendBox(obj, list) {
 	let email = document.createElement("li");
 	let birth = document.createElement("li");
 	let btn = document.createElement("button");
+
+	box.setAttribute("class", "friend-box");
 
 	if(obj?.Name) {
 		name.innerHTML = obj.Name;
@@ -38,26 +53,29 @@ function friendBox(obj, list) {
 	btn.innerHTML = "친구 끊기";
 
 	btn.addEventListener("click", function() {
-		delete_friend(this.parentNode.children[1].innerHTML);
-		friend_loading();
+		modal(this.parentNode.children[1].innerHTML);
 	});
 
 	box.append(name, email, birth, btn);
 	list.append(box);
 };
 
-const content_list_loading = (function() {
+(content_list_loading = function() {
 	fetch("../content/content_list.php")
 	.then(res => {return res.json()})
 	.then(data => {
+		document.querySelector("#post_count").innerHTML = "게시글 수 : " + data.length + "개";
+
 		if(data?.message) console.log(data.message);
 		else {
 			let content_list = document.querySelector("#post-list");
-			content_list.innerHTML = "";
+			if(content_list) {
+				content_list.innerHTML = "";
 
-			data?.forEach(item => {
-				postBox(item, content_list);
-			});
+				data?.forEach(item => {
+					postBox(item, content_list);
+				});
+			};
 		};
 	})
 	.catch(err => console.log(err));
@@ -78,7 +96,7 @@ function postBox(obj, list) {
 	likes.innerHTML = "좋아요 : 0";
 	comments.innerHTML = "댓글 : 0";
 
-	box.append(title, content, likes, comments);
+	box.append(title, content, img, likes, comments);
 	list.append(box);
 
 	return false;
@@ -95,7 +113,6 @@ function textCut(text) {
 };
 
 function delete_friend(target) {
-	console.log(target);
 	let form = new FormData();
 	form.append("email", target);
 	
@@ -103,9 +120,88 @@ function delete_friend(target) {
 		method: "post",
 		body: form
 	})
-	.then(res => {return res.json()})
-	.then(data => {
-		console.log(data);
-	})
 	.catch(err => console.log(err));
+
+	friend_loading();
 };
+
+Object.prototype.del = function(target) {
+	[...this.children].forEach((item, index) => {
+		if(item == target) {
+			let id = "#" + this.children[index].getAttribute("id");
+			let t = document.querySelector(id);
+			document.querySelector("#" + this.getAttribute("id")).removeChild(t);
+		};
+	});
+};
+Object.prototype.forEach = function(callback) {
+	for(let i = 0; i < this.length; i++) {
+		callback(this[i], i);
+	}
+};
+Array.prototype.aSize = function() {
+	let size = 0;
+
+	this.forEach(item => {
+		size += item.length;
+	});
+
+	return size;
+};
+
+function modal(target) {
+	let modal = document.createElement("div");
+	let btn_box = document.createElement("div");
+	let btn1 = document.createElement("button");
+	let btn2 = document.createElement("button");
+	let blind = document.createElement("div");
+	let style = document.createElement("style");
+	
+	modal.setAttribute("id", "modal");
+	btn_box.setAttribute("id", "btn-box");
+	blind.setAttribute("id", "blind");
+
+	btn1.innerHTML = "예";
+	btn2.innerHTML = "아니오";
+
+	btn1.addEventListener("click", () => {
+		delete_friend(target);
+	});
+	btn2.addEventListener("click", function(e) {
+		document.head.removeChild(style);
+		document.body.removeChild(this.parentNode.parentNode);
+	});
+
+	style.append(`#modal{ width: ${window.innerWidth}px; height: ${window.innerHeight}px; position: fixed; z-index: 10; }`);
+	style.append("#btn-box{ width: 300px; height: 100px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: #EAEAEA; }");
+	style.append("#btn-box > button{ width: calc(100%/2); height: 100%; }");
+	style.append("#blind{ width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); }");
+	style.setAttribute("rel", "stylesheet");
+
+	btn_box.append(btn1, btn2);
+	modal.append(btn_box, blind);
+
+	document.head.append(style);
+	document.body.append(modal);
+};
+
+window.onload = () => {
+	if(more_friend_btn) {
+		more_friend_btn.addEventListener("click", async function() {
+			let data = await friend_loading();
+			let friend_list = document.querySelector("#list-box");
+
+			data.forEach((item, d_idx) => {
+				if(item.length > 0) {
+					item.forEach((value, i_idx) => {
+						if(i_idx > 3)
+							friendBox(value, friend_list);
+					});
+				}else friendBox(item, friend_list);
+			});
+
+			this.parentNode.del(this);
+		});
+	};
+};
+

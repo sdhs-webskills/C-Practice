@@ -35,11 +35,7 @@ window.onload = () => {
 		form.append("value", value);
 
 		fetch(url, {
-			mode: "cors",
 			method: "post",
-			headers: {
-				"Access-Control-Allow-Origin" : "*"
-			},
 			body: form
 		})
 		.then(res => {return res.json()})
@@ -96,7 +92,6 @@ window.onload = () => {
 		result.append(box);
 	};
 	function friend_apply(email) {
-		console.log(email);
 		let url = "friend_apply.php";
 		let form = new FormData();
 		form.append("email", email);
@@ -106,7 +101,7 @@ window.onload = () => {
 			body: form
 		})
 		.then(res => {return res.json()})
-		.then(res => res)
+		.then(data => data)
 		.catch(err => console.log(err));
 	};
 	function friendApply_check(email) {

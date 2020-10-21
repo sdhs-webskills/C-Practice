@@ -25,7 +25,7 @@ if($method == "GET") {
 };
 
 function register($email, $password, $name, $birthday, $img) {
-	$img_path = "../account/image/user/";
+	$img_path = "../account/image/user/profile";
 
 	$imgs = $_FILES["img"]["name"];
 	if($imgs) {

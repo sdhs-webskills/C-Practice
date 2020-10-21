@@ -33,11 +33,16 @@ if($method == "GET") {
 
 		$check = false;
 
+		// print_r(json_encode(array(
+		// 	"req" => $requester,
+		// 	"res" => $responser
+		// )));
+
 		$result = DB::fetch("select Responser from friend_apply where Requester='$requester';", []);
 
 		if($result[0] == $responser) $check = true;
 
-		// 친구 요청을 보낸적이 없으면
+		
 		if($check == false) {
 
 			$friend_check = false; // 친구인지 아닌지 체크

@@ -14,8 +14,8 @@ else {
 		$req = $_POST["email"];
 		$res = $_SESSION["email"];
 
-		$result = DB::fetch("delete from friend_apply where Requester='$req' and Responser='$res';", []);
-
+		DB::fetch("delete from friend_apply where Requester='$req' and Responser='$res';", []);
+		DB::fetch("insert into friend values ('$req', '$res', now());", []);
 	}else {
 		print_r(json_encode(array(
 			"message" => "bad requester"

@@ -1,4 +1,4 @@
-const apply_loading = (function() {
+(apply_loading = function() {
 	fetch("friend_apply.php")
 	.then(req => {return req.json()})
 	.then(res => {
@@ -10,6 +10,8 @@ const apply_loading = (function() {
 	})
 	.catch(err => console.log(err));
 })();
+
+apply_loading();
 
 function make_box(obj) {
 	let box = document.createElement("div");
