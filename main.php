@@ -1,19 +1,3 @@
-<?php
-
-include "src/account/function.php";
-
-session_start();
-
-if($_SESSION["login-whether"] == true) {
-
-}else{
-	alert("로그인한 회원만 접근 가능합니다");
-	
-	echo "<script>document.location.href='/webskills/src/page/login.html';</script>";
-};
-
-?>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
