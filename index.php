@@ -3,8 +3,7 @@
 session_start();
 
 include_once("src/core/Route.php");
-include_once("src/core/People.php");
-include_once("src/core/Board.php");
+include_once("src/core/DB.php");
 include_once("src/Controller/MainController.php");
 include_once("lib.php");
 
