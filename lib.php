@@ -8,4 +8,8 @@ function view($view, $variables = []) {
 	include $view;
 };
 
+function alert($text) {
+    echo "<script>alert('{$text}');</script>";
+};
+
 ?>

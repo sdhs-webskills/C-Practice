@@ -49,9 +49,9 @@ function getFriendArr($email) {
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="css/profile.css">
+	<link rel="stylesheet" href="../../../resources/css/profile.css">
 	<?php if(!isset($_GET["email"]) || isset($_GET["email"]) && $_GET["email"] == $email): ?>
-	<script src="js/profile.js"></script>
+	<script src="../../../resources/js/profile.js"></script>
 <?php endif;?>
 </head>
 <body>
@@ -103,7 +103,7 @@ function getFriendArr($email) {
 			</div>
 		</div>
 	<?php endif;?>
-	<button><a href="../../main.php">메인</a></button>
+	<button><a href="../../../../main.php">메인</a></button>
 	<?php
 
 	if(isset($_GET["email"]) && $email) {

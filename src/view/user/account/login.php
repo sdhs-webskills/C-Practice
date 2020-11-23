@@ -44,3 +44,24 @@ function login($email, $password) {
 };
 
 ?>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <link rel="stylesheet" href="/webskills/src/page/css/login.css">
+    <script src="/webskills/src/page/js/login.js"></script>
+</head>
+<body>
+<div>
+    <form method="post" action="/webskills/src/account/login.php" name="login">
+        <input type="text" name="email"><br>
+        <input type="password" name="password"><br>
+        <button type="submit">로그인</button>
+    </form>
+
+    <button><a href="/webskills/src/page/register.html">회원가입</a></button>
+</div>
+</body>
+</html>

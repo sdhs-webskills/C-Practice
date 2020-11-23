@@ -9,8 +9,9 @@ include_once("lib.php");
 
 use src\core\Route;
 
-Route::add("GET", "/webskills/", "MainController::main");
+Route::add("GET", "/webskills/", "MainController::goToMain");
 Route::add("GET", "/webskills/main", "MainController::main");
+Route::add("GET", "/user/login", "UserController::login");
 
 Route::run();
 

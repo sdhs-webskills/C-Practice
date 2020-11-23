@@ -72,8 +72,8 @@ date_default_timezone_set("Asia/Seoul");
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="css/content_write.css">
-	<script src="js/content_write.js"></script>
+	<link rel="stylesheet" href="../../resources/css/content_write.css">
+	<script src="../../resources/js/content_write.js"></script>
 	<style>
 		textarea{ resize: none; }
 	</style>
