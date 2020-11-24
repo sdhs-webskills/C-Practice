@@ -23,12 +23,11 @@ function test3 ($request) {
     echo "<pre>";
     print_r($request);
     echo "</pre>";
-    echo $request['params'][1];
 };
 
 Route::add("GET", "/", "test");
 Route::add("GET", "/test", "test");
-Route::add("GET", "/test2", "test");
+Route::add("GET", "/test2", "test2");
 Route::add("GET", "/test3/([0-9]+)", "test3");
 //Route::add("GET", "/webskills/", "MainController::goToMain");
 //Route::add("GET", "/webskills/main", "MainController::main");
