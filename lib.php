@@ -1,15 +1,13 @@
 <?php
 
 function view($view, $variables = []) {
-	foreach($variables as $variable => $value) {
-		$$variable = $value;
-	};
+    foreach(current($variables)["param"] as $variable => $value) {
+		$param = $value;
+    };
 
-	include $view;
+    include $view;
 };
 
 function alert($text) {
     echo "<script>alert('{$text}');</script>";
 };
-
-?>

@@ -1,3 +1,9 @@
+<?php
+
+print($param);
+
+?>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
