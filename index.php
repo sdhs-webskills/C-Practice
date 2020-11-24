@@ -19,8 +19,11 @@ function test2 () {
 };
 
 
-function test3 () {
-    echo "test3";
+function test3 ($request) {
+    echo "<pre>";
+    print_r($request);
+    echo "</pre>";
+    echo $request['params'][1];
 };
 
 Route::add("GET", "/", "test");
