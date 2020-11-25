@@ -1,6 +1,10 @@
 <?php
 
+include_once("src/core/DB.php");
+use src\core\DB;
+
 class UserController{
+
     public static function getLogin() {
         return view("src/view/user/account/login.php", []);
     }
@@ -9,40 +13,34 @@ class UserController{
         $email = $_POST["email"];
         $password = $_POST["password"];
 
-        print($email);
+        $id_check = false;
+        $pw_check = false;
 
-//        login($email, $password);
+        $result = DB::fetch("select * from person where Email='$email' and Password=password('$password');", []);
 
-        function login($email, $password) {
-            $id_check = false;
-            $pw_check = false;
+        if($result) {
+            session_start();
 
-            $result = DB::fetch("select * from person where Email='$email' and Password=password('$password');", []);
+            $_SESSION["email"] = $email;
+            $_SESSION["login-whether"] = true;
+
+            header('Location: /webskills/main.php');
+        }else{
+            $result = DB::fetch("select * from person where Email='$email';", []);
+
+            session_start();
+
+            $_SESSION["email"] = "";
+            $_SESSION["login-whether"] = false;
 
             if($result) {
-                session_start();
+                alert("비밀번호를 확인해주세요.");
 
-                $_SESSION["email"] = $email;
-                $_SESSION["login-whether"] = true;
+                echo "<script>document.location.href='/webskills/src/page/login.html';</script>";
+            }else {
+                alert("존재하지않는 아이디입니다.");
 
-                header('Location: /webskills/main.php');
-            }else{
-                $result = DB::fetch("select * from person where Email='$email';", []);
-
-                session_start();
-
-                $_SESSION["email"] = "";
-                $_SESSION["login-whether"] = false;
-
-                if($result) {
-                    alert("비밀번호를 확인해주세요.");
-
-                    echo "<script>document.location.href='/webskills/src/page/login.html';</script>";
-                }else {
-                    alert("존재하지않는 아이디입니다.");
-
-                    echo "<script>document.location.href='/webskills/src/page/login.html';</script>";
-                };
+                echo "<script>document.location.href='/webskills/src/page/login.html';</script>";
             };
         };
     }

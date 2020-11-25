@@ -6,7 +6,7 @@ class DB{
 	static $db;
 
 	public function getDB() {
-		self::$db = new \PDO("mysql:host=localhost;port=3306;dbname=main;charset=utf8mb4", "root", "");
+		self::$db = new \PDO("mysql:host=localhost;port=3306;dbname=webskills;charset=utf8mb4", "root", "");
 
 		return self::$db;
 	}

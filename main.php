@@ -1,6 +1,6 @@
 <?php
 
-print($param);
+session_start();
 
 ?>
 
@@ -11,9 +11,19 @@ print($param);
 	<title>index</title>
 </head>
 <body>
-	<button name="logout"><a href="/webskills/src/account/logout.php">로그아웃</a></button>
-	<button name="search"><a href="/webskills/src/account/search.php">유저 검색</a></button>
+<?php
+    if($_SESSION["email"] !== null) {
+?>
+        <button name="logout"><a href="/webskills/src/user/account/logout">로그아웃</a></button>
+<?php
+    }else {
+?>
+        <button name="logout"><a href="/webskills/src/user/account/login">로그인</a></button>
+<?php
+    };
+?>
+	<button name="search"><a href="/webskills/src/user/search">유저 검색</a></button>
 	<button name="friend_apply"><a href="/webskills/src/account/friend_apply.html">친구 요청 페이지</a></button>
-	<button name="profile"><a href="/webskills/src/account/profile.php">프로필 페이지</a></button>
+	<button name="profile"><a href="/webskills/src/account/profile">프로필 페이지</a></button>
 </body>
 </html>
