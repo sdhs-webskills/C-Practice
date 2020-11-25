@@ -1,18 +1,5 @@
 window.onload = () => {
-	let data = {};
-
-	let search_input = document.querySelector("input[name='search-input']");
-	search_input.addEventListener("keyup", function(e) {
-		if(e.keyCode == 13) {
-			let val = search_input.value;
-			let sql = "";
-
-			if(form_check(val) == "email") search("Email", val);
-			else if(form_check(val) == "name") search("Name", val);
-		};
-	});
-
-	function form_check(data) {
+	const form_check = data => {
 		let email = name = data;
 
 		let email_result = email.match(new RegExp(/\S+@\S+\.\S+/g));
@@ -26,9 +13,7 @@ window.onload = () => {
 			return false;
 		};
 	};
-
-	let result = document.querySelector("#result-box");
-	function search(kind, value) {
+	const search = (kind, value) => {
 		let url = "search.php";
 		let form = new FormData();
 		form.append("kind", kind);
@@ -38,33 +23,33 @@ window.onload = () => {
 			method: "post",
 			body: form
 		})
-		.then(res => {return res.json()})
-		.then(data => {
-			if(data?.message) result.innerHTML = msg_change(data.message);
-			else {
-				result.innerHTML = "";
-				if(data.length > 0) {
-					[...data].forEach(item => {
-						item.forEach(value => {
-							friendApply_check(value[0][0])
-							.then(data => {
-								search_result(value, data);
+			.then(res => {return res.json()})
+			.then(data => {
+				if(data?.message) result.innerHTML = msg_change(data.message);
+				else {
+					result.innerHTML = "";
+					if(data.length > 0) {
+						[...data].forEach(item => {
+							item.forEach(value => {
+								friendApply_check(value[0][0])
+									.then(data => {
+										search_result(value, data);
+									});
 							});
 						});
-					});
+					};
 				};
-			};
-		})
-		.catch(err => console.log(err));
+			})
+			.catch(err => console.log(err));
 	};
-	async function search_result(arr, bool) {
-		let box = document.createElement("div");
-		let a = document.createElement("a");
-		let img = document.createElement("img");
-		let email = document.createElement("li");
-		let name = document.createElement("li");
-		let birth = document.createElement("li");
-		let btn = document.createElement("button");
+	const search_result = async (arr, bool) => {
+		const box = document.createElement("div");
+		const a = document.createElement("a");
+		const img = document.createElement("img");
+		const email = document.createElement("li");
+		const name = document.createElement("li");
+		const birth = document.createElement("li");
+		const btn = document.createElement("button");
 
 		a.setAttribute("href", `profile.php?email=${arr[0][0]}`);
 		img.setAttribute("src", arr[0][3]);
@@ -78,20 +63,20 @@ window.onload = () => {
 		};
 
 		btn.addEventListener("click", function(e) {
-			if(this.innerHTML == "친구요청")
+			if(this.innerHTML === "친구요청")
 				friend_apply(arr[0][0]);
-			else if(this.innerHTML == "친구끊기")
+			else if(this.innerHTML === "친구끊기")
 				friend_delete(arr[0][0]);
 		});
 
 		a.append(img);
 		box.append(a, email, name, birth);
 
-		if(btn.innerHTML != "") box.append(btn);
+		if(btn.innerHTML !== "") box.append(btn);
 
 		result.append(box);
 	};
-	function friend_apply(email) {
+	const friend_apply = email => {
 		let url = "friend_apply.php";
 		let form = new FormData();
 		form.append("email", email);
@@ -100,11 +85,11 @@ window.onload = () => {
 			method: "post",
 			body: form
 		})
-		.then(res => {return res.json()})
-		.then(data => data)
-		.catch(err => console.log(err));
+			.then(res => {return res.json()})
+			.then(data => data)
+			.catch(err => console.log(err));
 	};
-	function friendApply_check(email) {
+	const friendApply_check = email => {
 		let url = "friendApply_check.php";
 		let form = new FormData();
 		form.append("email", email);
@@ -117,11 +102,11 @@ window.onload = () => {
 			},
 			body: form
 		})
-		.then(res => {return res.json()})
-		// .then(res => {return res})
-		.catch(err => console.log(err));
+			.then(res => {return res.json()})
+			// .then(res => {return res})
+			.catch(err => console.log(err));
 	};
-	function friend_check(email) {
+	const friend_check = email => {
 		let url = "friend_check.php";
 		let form = new FormData();
 		form.append("email", email);
@@ -130,10 +115,10 @@ window.onload = () => {
 			method: "post",
 			body: form
 		})
-		.then(res => {return res.json()})
-		.catch(err => console.log(err));
+			.then(res => {return res.json()})
+			.catch(err => console.log(err));
 	};
-	function delete_friend(target) {
+	const delete_friend = target => {
 		let form = new FormData();
 		form.append("email", target);
 
@@ -141,16 +126,32 @@ window.onload = () => {
 			method: "post",
 			body: form
 		})
-		.then(res => {return res.json()})
-		.then(data => {console.log(data);})
-		.catch(err => console.log(err));
+			.then(res => {return res.json()})
+			.then(data => {console.log(data);})
+			.catch(err => console.log(err));
 	};
 
-	function msg_change(msg) {
+	const msg_change = msg => {
 		switch(msg) {
 			case "fail to search user" : return "존재하지 않는 유저입니다.";
 			case "can't search myself" : return "본인은 검색할 수 없습니다.";
 			case "nothing to search" : return "친구가 아닙니다";
 		};
 	};
+
+	let data = {};
+
+	const search_input = document.querySelector("input");
+	search_input.addEventListener("keyup", function(e) {
+		if(e.key !== "Enter") return false;
+
+		const val = search_input.value;
+
+		location.href = `/webskills/src/user/search/${val}`;
+
+		// if(form_check(val) === "email") search("Email", val);
+		// else if(form_check(val) === "name") search("Name", val);
+	});
+
+	const result = document.querySelector("#result-box");
 };
