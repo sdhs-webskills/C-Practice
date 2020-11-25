@@ -1,8 +1,10 @@
 <?php
 
 function view($view, $variables = []) {
-    foreach($variables as $variable => $value) {
-		$$variable = $value;
+    if(isset(current($variables)["params"][1])) {
+        foreach(current($variables)["params"][1] as $variable => $value) {
+            $param = $value;
+        };
     };
 
     include $view;
