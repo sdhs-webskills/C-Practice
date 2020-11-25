@@ -14,7 +14,7 @@ class Route{
     public static function run() {
         $route = current(array_filter(self::$routes, fn($route) => self::match($route)));
         preg_match_all($route['uriReg'], $_SERVER['REQUEST_URI'], $params, 0);
-        $request = ['param' => $params[1]];
+        $request = ['params' => $params];
         return call_user_func($route["callback"], $request);
     }
 
