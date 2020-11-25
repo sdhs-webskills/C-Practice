@@ -15,6 +15,7 @@ use src\core\Route;
 Route::add("GET", "/webskills/", "MainController::goToMain");
 Route::add("GET", "/webskills/main", "MainController::main");
 Route::add("GET", "/webskills/src/user/account/login", "UserController::getLogin");
+Route::add("GET", "/webskills/src/user/account/logout", "UserController::logout");
 Route::add("GET", "/webskills/src/user/account/register", "UserController::getRegister");
 
 Route::add("POST", "/webskills/src/user/account/login", "UserController::postLogin");

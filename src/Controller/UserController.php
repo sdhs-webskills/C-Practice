@@ -91,4 +91,8 @@ class UserController{
             return $result;
         };
     }
+
+    public static function logout() {
+        return view("src/view/user/account/logout.php", []);
+    }
 };

@@ -2,9 +2,8 @@
 
 session_start();
 
-$_SESSION["email"] = "";
-$_SESSION["login-whether"] = false;
+$_SESSION["email"] = null;
 
-header("Location: /webskills/src/page/login.html");
+session_write_close();
 
-?>
+header("Location: /webskills/");
