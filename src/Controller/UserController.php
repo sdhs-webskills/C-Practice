@@ -95,4 +95,10 @@ class UserController{
     public static function logout() {
         return view("src/view/user/account/logout.php", []);
     }
+
+    public static function getSearch($email) {
+        if($email !== null) return view("src/view/user/search.php", [$email]);
+
+        return view("src/view/user/search.php", []);
+    }
 };
