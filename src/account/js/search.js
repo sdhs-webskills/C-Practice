@@ -40,19 +40,18 @@ window.onload = () => {
 		})
 		.then(res => {return res.json()})
 		.then(data => {
-			if(data?.message) result.innerHTML = msg_change(data.message);
-			else {
-				result.innerHTML = "";
-				if(data.length > 0) {
-					[...data].forEach(item => {
-						item.forEach(value => {
-							friendApply_check(value[0][0])
-							.then(data => {
-								search_result(value, data);
-							});
+			if(data?.message) return result.innerHTML = msg_change(data.message);
+			
+			result.innerHTML = "";
+			if(data.length > 0) {
+				[...data].forEach(item => {
+					item.forEach(value => {
+						friendApply_check(value[0][0])
+						.then(data => {
+							search_result(value, data);
 						});
 					});
-				};
+				});
 			};
 		})
 		.catch(err => console.log(err));
@@ -73,21 +72,21 @@ window.onload = () => {
 		birth.innerHTML = arr[0][2];
 
 		if(!arr[1]) {
-			if(await friend_check(arr[0][0])) btn.innerHTML = "친구끊기";
-			else btn.innerHTML = "친구요청";
+			if(await friend_check(arr[0][0])) return btn.innerHTML = "친구끊기";
+			
+			btn.innerHTML = "친구요청";
 		};
 
 		btn.addEventListener("click", function(e) {
-			if(this.innerHTML == "친구요청")
-				friend_apply(arr[0][0]);
-			else if(this.innerHTML == "친구끊기")
-				friend_delete(arr[0][0]);
+			if(this.innerHTML == "친구요청") return friend_apply(arr[0][0]);
+
+			friend_delete(arr[0][0]);
 		});
 
 		a.append(img);
 		box.append(a, email, name, birth);
 
-		if(btn.innerHTML != "") box.append(btn);
+		if(btn.innerHTML !== "") box.append(btn);
 
 		result.append(box);
 	};
