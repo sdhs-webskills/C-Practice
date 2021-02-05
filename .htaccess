@@ -1,0 +1,13 @@
+Options -MultiViews
+
+RewriteEngine On
+
+Options -Indexes
+
+RewriteCond %{REQUEST_FILENAME} !(.ico$)
+RewriteCond %{REQUEST_FILENAME} !(.js$)
+RewriteCond %{REQUEST_FILENAME} !(.css$)
+RewriteCond %{REQUEST_FILENAME} !(phpinfo.php$)
+RewriteCond %{REQUEST_FILENAME} !(main.php$)
+
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
